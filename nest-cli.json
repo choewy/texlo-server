@@ -19,6 +19,42 @@
       "compilerOptions": {
         "tsConfigPath": "apps/api/tsconfig.app.json"
       }
+    },
+    "config": {
+      "type": "library",
+      "root": "libs/config",
+      "entryFile": "index",
+      "sourceRoot": "libs/config/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/config/tsconfig.lib.json"
+      }
+    },
+    "http": {
+      "type": "library",
+      "root": "libs/http",
+      "entryFile": "index",
+      "sourceRoot": "libs/http/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/http/tsconfig.lib.json"
+      }
+    },
+    "persistence": {
+      "type": "library",
+      "root": "libs/persistence",
+      "entryFile": "index",
+      "sourceRoot": "libs/persistence/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/persistence/tsconfig.lib.json"
+      }
+    },
+    "redis": {
+      "type": "library",
+      "root": "libs/redis",
+      "entryFile": "index",
+      "sourceRoot": "libs/redis/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/redis/tsconfig.lib.json"
+      }
     }
   }
 }

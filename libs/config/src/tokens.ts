@@ -1,0 +1,7 @@
+export const HTTP_CONFIG = Symbol('HTTP_CONFIG');
+export const COOKIE_CONFIG = Symbol('COOKIE_CONFIG');
+export const JWT_CONFIG = Symbol('JWT_CONFIG');
+export const JWT_PASSPORT_CONFIG = Symbol('JWT_PASSPORT_CONFIG');
+export const REDIS_CONFIG = Symbol('REDIS_CONFIG');
+export const TYPEORM_CONFIG = Symbol('TYPEORM_CONFIG');
+export const WINSTON_CONFIG = Symbol('WINSTON_CONFIG');

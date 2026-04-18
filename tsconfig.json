@@ -22,7 +22,33 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@apps/api/*": ["apps/api/src/*"]
+      "@apps/api/*": [
+        "apps/api/src/*"
+      ],
+      "@libs/config": [
+        "libs/config/src"
+      ],
+      "@libs/config/*": [
+        "libs/config/src/*"
+      ],
+      "@libs/http": [
+        "libs/http/src"
+      ],
+      "@libs/http/*": [
+        "libs/http/src/*"
+      ],
+      "@libs/persistence": [
+        "libs/persistence/src"
+      ],
+      "@libs/persistence/*": [
+        "libs/persistence/src/*"
+      ],
+      "@libs/redis": [
+        "libs/redis/src"
+      ],
+      "@libs/redis/*": [
+        "libs/redis/src/*"
+      ]
     }
   }
 }
