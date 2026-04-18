@@ -1,0 +1,32 @@
+name: texlo
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: texlo-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - ../docker/texlo/postgres/:/var/lib/postgresql/data
+    ports:
+      - 54325:5432
+    restart: unless-stopped
+    networks:
+      - texlo
+
+  valkey:
+    image: valkey/valkey:latest
+    container_name: texlo-valkey
+    volumes:
+      - ../docker/texlo/valkey:/data
+    ports:
+      - 6370:6379
+    restart: unless-stopped
+    networks:
+      - texlo
+
+networks:
+  texlo:
+    driver: bridge
