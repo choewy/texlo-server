@@ -9,6 +9,8 @@ import { cookieConfig, httpConfig, jwtConfig, jwtPassportConfig, REDIS_CONFIG, r
 import { GlobalHttpExceptionFilter, GlobalValidationPipe } from '@libs/http';
 import { RedisModule } from '@libs/redis';
 
+import { WhisperModule } from './whisper';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -34,6 +36,7 @@ import { RedisModule } from '@libs/redis';
         return configService.getOrThrow(TYPEORM_CONFIG);
       },
     }),
+    WhisperModule,
   ],
   providers: [
     {
