@@ -6,6 +6,8 @@ import { WinstonModule } from 'nest-winston';
 
 import { httpConfig, MONGOOSE_CONFIG, MongooseConfig, mongooseConfig, storageConfig, WINSTON_CONFIG, WinstonConfig, winstonConfig } from '@libs/config';
 
+import { BucketModule } from './bucket';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -25,6 +27,7 @@ import { httpConfig, MONGOOSE_CONFIG, MongooseConfig, mongooseConfig, storageCon
         return configService.getOrThrow<MongooseConfig>(MONGOOSE_CONFIG);
       },
     }),
+    BucketModule,
   ],
 })
 export class StorageModule {}

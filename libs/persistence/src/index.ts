@@ -1,2 +1,2 @@
-export * from './persistence.module';
-export * from './persistence.service';
+export * from './typeorm';
+export * from './mongoose';
