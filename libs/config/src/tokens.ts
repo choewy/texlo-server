@@ -4,5 +4,6 @@ export const JWT_CONFIG = Symbol('JWT_CONFIG');
 export const JWT_PASSPORT_CONFIG = Symbol('JWT_PASSPORT_CONFIG');
 export const REDIS_CONFIG = Symbol('REDIS_CONFIG');
 export const TYPEORM_CONFIG = Symbol('TYPEORM_CONFIG');
+export const MONGOOSE_CONFIG = Symbol('MONGOOSE_CONFIG');
 export const WINSTON_CONFIG = Symbol('WINSTON_CONFIG');
 export const STORAGE_CONFIG = Symbol('STORAGE_CONFIG');

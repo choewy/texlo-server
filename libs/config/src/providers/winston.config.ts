@@ -1,12 +1,12 @@
-import { ConfigService, registerAs } from '@nestjs/config';
+import { ConfigService, ConfigType, registerAs } from '@nestjs/config';
 
-import { utilities } from 'nest-winston';
+import { utilities, WinstonModuleOptions } from 'nest-winston';
 import winston from 'winston';
 
 import { NodeEnv } from '../enums';
 import { WINSTON_CONFIG } from '../tokens';
 
-export const winstonConfig = registerAs(WINSTON_CONFIG, () => {
+export const winstonConfig = registerAs(WINSTON_CONFIG, (): WinstonModuleOptions => {
   const configService = new ConfigService();
 
   const name = configService.get<string>('npm_package_name');
@@ -33,3 +33,5 @@ export const winstonConfig = registerAs(WINSTON_CONFIG, () => {
     level: isLocal ? 'silly' : 'verbose',
   };
 });
+
+export type WinstonConfig = ConfigType<typeof winstonConfig>;
