@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
@@ -9,6 +9,7 @@ import { Serializer } from '@libs/http';
 
 import { BucketService } from './bucket.service';
 import { UploadFileReqDTO, UploadFileResDTO } from './dtos';
+import { BucketGuard } from './guards';
 
 @ApiTags('Bucket')
 @Controller('bucket')
@@ -33,7 +34,9 @@ export class BucketController {
 
   @Post()
   @Serializer(UploadFileResDTO)
+  @UseGuards(BucketGuard)
   @UseInterceptors(FileInterceptor('file'))
+  @ApiOperation({ summary: '파일 업로드' })
   @ApiBody({ type: UploadFileReqDTO })
   @ApiConsumes('multipart/form-data')
   @ApiCreatedResponse({ type: UploadFileResDTO })
