@@ -3,14 +3,14 @@ import { ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { STORAGE_CONFIG, StorageConfig } from '@libs/config';
-import { FileEntity, FileSchema } from '@libs/persistence';
+import { File, FileSchema } from '@libs/persistence';
 
 import { BucketController } from './bucket.controller';
 import { BucketService } from './bucket.service';
 import { BucketGuard } from './guards';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: FileEntity.name, schema: FileSchema }])],
+  imports: [MongooseModule.forFeature([{ name: File.name, schema: FileSchema }])],
   controllers: [BucketController],
   providers: [
     {

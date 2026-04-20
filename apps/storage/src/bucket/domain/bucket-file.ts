@@ -1,4 +1,4 @@
-import { FileEntity } from '@libs/persistence';
+import { File } from '@libs/persistence';
 
 export class BucketFile {
   id: string;
@@ -6,7 +6,7 @@ export class BucketFile {
   mimetype: string;
   uploadDate: Date;
 
-  constructor(file: FileEntity) {
+  constructor(file: File) {
     this.id = file.metadata.id;
     this.filename = file.filename;
     this.mimetype = file.metadata.mimetype;

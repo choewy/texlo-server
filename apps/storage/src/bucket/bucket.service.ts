@@ -6,7 +6,7 @@ import { fileTypeFromBuffer } from 'file-type';
 import { Db, GridFSBucket, GridFSBucketReadStream } from 'mongodb';
 import { Model } from 'mongoose';
 
-import { FileEntity } from '@libs/persistence';
+import { File } from '@libs/persistence';
 
 import { BucketFile } from './domain';
 import { InvalidFileTypeException, NotFoundFileException, UploadFailedFileException } from './exceptions';
@@ -14,15 +14,15 @@ import { InvalidFileTypeException, NotFoundFileException, UploadFailedFileExcept
 @Injectable()
 export class BucketService {
   constructor(
-    @InjectModel(FileEntity.name)
-    private readonly fileModel: Model<FileEntity>,
+    @InjectModel(File.name)
+    private readonly fileModel: Model<File>,
   ) {}
 
   private get bucket() {
     return new GridFSBucket(this.fileModel.db as unknown as Db);
   }
 
-  async getFileStream(id: string): Promise<{ file: FileEntity; stream: GridFSBucketReadStream }> {
+  async getFileStream(id: string): Promise<{ file: File; stream: GridFSBucketReadStream }> {
     const file = await this.fileModel.findOne({ 'metadata.id': id });
 
     if (!file) {

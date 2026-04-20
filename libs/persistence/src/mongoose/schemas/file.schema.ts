@@ -5,7 +5,7 @@ import { HydratedDocument, Types } from 'mongoose';
 export type FileDocument = HydratedDocument<File>;
 
 @Schema({ collection: 'fs.files' })
-export class FileEntity {
+export class File {
   @Prop({ type: Types.ObjectId, required: true })
   _id: Types.ObjectId;
 
@@ -28,4 +28,4 @@ export class FileEntity {
   ext: string;
 }
 
-export const FileSchema = SchemaFactory.createForClass(FileEntity);
+export const FileSchema = SchemaFactory.createForClass(File);
