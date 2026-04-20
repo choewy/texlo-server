@@ -1,6 +1,6 @@
-import { Controller, Get, Param, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiCreatedResponse, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { type Response } from 'express';
 import { GridFSBucketReadStream } from 'mongodb';
@@ -42,5 +42,14 @@ export class BucketController {
   @ApiCreatedResponse({ type: UploadFileResDTO })
   async uploadFile(@UploadedFile() uploadedFile: Express.Multer.File) {
     return this.bucketService.uploadFile(uploadedFile);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(BucketGuard)
+  @ApiOperation({ summary: '파일 삭제' })
+  @ApiNoContentResponse()
+  async removeFile(@Param('id') id: string) {
+    return this.bucketService.removeFile(id);
   }
 }

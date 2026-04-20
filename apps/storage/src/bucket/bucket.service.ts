@@ -61,4 +61,14 @@ export class BucketService {
 
     return new BucketFile(file);
   }
+
+  async removeFile(id: string): Promise<void> {
+    const file = await this.fileModel.findOne({ 'metadata.id': id });
+
+    if (!file) {
+      throw new NotFoundFileException(id);
+    }
+
+    await file.deleteOne();
+  }
 }
