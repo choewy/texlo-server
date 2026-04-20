@@ -27,6 +27,20 @@ services:
     networks:
       - texlo
 
+  mongo:
+    image: mongo:4.4.18
+    container_name: texlo-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: texlo
+      MONGO_INITDB_ROOT_PASSWORD: texlo
+      MONGO_INITDB_DATABASE: texlo
+    volumes:
+      - ../.docker/texlo/mongo:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - texlo
+
 networks:
   texlo:
     driver: bridge

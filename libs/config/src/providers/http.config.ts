@@ -1,7 +1,6 @@
-import { ConfigService, registerAs } from '@nestjs/config';
+import { ConfigService, ConfigType, registerAs } from '@nestjs/config';
 
 import { HTTP_CONFIG } from '../tokens';
-import { HttpOptions } from '../types';
 
 export const httpConfig = registerAs(HTTP_CONFIG, () => {
   const configService = new ConfigService();
@@ -12,5 +11,7 @@ export const httpConfig = registerAs(HTTP_CONFIG, () => {
     cors: {
       origin: new RegExp(configService.getOrThrow<string>('CORS_ORIGIN')),
     },
-  } as HttpOptions;
+  };
 });
+
+export type HttpConfig = ConfigType<typeof httpConfig>;

@@ -1,4 +1,4 @@
-import { ConfigService, registerAs } from '@nestjs/config';
+import { ConfigService, ConfigType, registerAs } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 import { resolve } from 'path';
@@ -8,7 +8,7 @@ import { DIST_APP_ROOT } from '../constants';
 import { NodeEnv } from '../enums';
 import { TYPEORM_CONFIG } from '../tokens';
 
-export const typeormConfig = registerAs(TYPEORM_CONFIG, () => {
+export const typeormConfig = registerAs(TYPEORM_CONFIG, (): TypeOrmModuleOptions => {
   const configService = new ConfigService();
   const isLocal = configService.getOrThrow<NodeEnv>('NODE_ENV') === NodeEnv.Local;
 
@@ -24,5 +24,7 @@ export const typeormConfig = registerAs(TYPEORM_CONFIG, () => {
     entities: [resolve(DIST_APP_ROOT, 'libs/**/*.entity.{js,ts}')],
     migrations: [resolve(DIST_APP_ROOT, 'apps/**/*-migration.{js,ts}')],
     synchronize: true,
-  } as TypeOrmModuleOptions;
+  };
 });
+
+export type TypeOrmConfig = ConfigType<typeof typeormConfig>;
