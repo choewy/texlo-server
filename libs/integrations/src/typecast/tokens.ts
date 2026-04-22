@@ -1,0 +1,2 @@
+export const TYPECAST_OPTIONS = Symbol('TYPECAST_OPTIONS');
+export const TYPECAST_CLIENT = Symbol('TYPECAST_CLIENT');
