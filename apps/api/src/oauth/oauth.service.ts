@@ -5,7 +5,7 @@ import { AUTH_STORE, type AuthStore } from '../shared';
 import { OAUTH_CLIENTS, OAuthClient } from './clients';
 import { OAuthProvider } from './domain';
 import { OAuthProfileFetchFailedException, OAuthProviderNotSupportedException, OAuthTokenExchangeFailedException } from './exceptions';
-import { OAUTH_REPOSITORY, type OAuthRepository, USER_REPOSITORY, type UserRepository } from './repositories';
+import { OAUTH_REPOSITORY, OAUTH_UNIT_OF_WORK, type OAuthRepository, type OAuthUnitOfWork } from './repositories';
 import { OAuthLoginInput, OAuthProcessInput } from './usecases';
 
 @Injectable()
@@ -17,8 +17,8 @@ export class OAuthService {
     private readonly authStore: AuthStore,
     @Inject(OAUTH_REPOSITORY)
     private readonly oauthRepository: OAuthRepository,
-    @Inject(USER_REPOSITORY)
-    private readonly userRepository: UserRepository,
+    @Inject(OAUTH_UNIT_OF_WORK)
+    private readonly oauthUnitOfWork: OAuthUnitOfWork,
   ) {}
 
   private get(provider: OAuthProvider): OAuthClient {
@@ -49,10 +49,9 @@ export class OAuthService {
     let oauth = await this.oauthRepository.findOne(profile);
 
     if (!oauth) {
-      oauth = await this.userRepository.transaction(async (em) => {
-        const user = await this.userRepository.insert(em);
-        const oauth = await this.oauthRepository.insert(profile, user, em);
-        return oauth;
+      oauth = await this.oauthUnitOfWork.transaction(async ({ userRepository, oauthRepository }) => {
+        const user = await userRepository.insert();
+        return oauthRepository.insert(profile, user);
       });
     } else {
       await this.oauthRepository.update(oauth.id, profile);

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 
 import { DataSource, EntityManager } from 'typeorm';
 
@@ -11,18 +11,18 @@ import { UserRepository } from './user.repository';
 
 @Injectable()
 export class TypeOrmUserRepository implements UserRepository {
-  constructor(private readonly dataSource: DataSource) {}
+  constructor(
+    private readonly dataSource: DataSource,
+    @Optional()
+    private readonly entityManager?: EntityManager,
+  ) {}
 
-  private getRepository(em?: EntityManager) {
-    return (em ?? this.dataSource).getRepository(UserEntity);
+  private getRepository() {
+    return (this.entityManager ?? this.dataSource).getRepository(UserEntity);
   }
 
-  transaction<T>(run: (em: EntityManager) => Promise<T>): Promise<T> {
-    return this.dataSource.transaction(run);
-  }
-
-  async insert(em: EntityManager): Promise<User> {
-    const repository = this.getRepository(em);
+  async insert(): Promise<User> {
+    const repository = this.getRepository();
     const user = repository.create({});
 
     return OAuthMapper.toUser(await repository.save(user));

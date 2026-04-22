@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 
 import { DataSource, EntityManager } from 'typeorm';
 
@@ -11,14 +11,14 @@ import { OAuthRepository } from './oauth.repository';
 
 @Injectable()
 export class TypeOrmOAuthRepository implements OAuthRepository {
-  constructor(private readonly dataSource: DataSource) {}
+  constructor(
+    private readonly dataSource: DataSource,
+    @Optional()
+    private readonly entityManager?: EntityManager,
+  ) {}
 
-  private getRepository(em?: EntityManager) {
-    return (em ?? this.dataSource).getRepository(OAuthEntity);
-  }
-
-  async transaction<T>(run: (em: EntityManager) => Promise<T>): Promise<T> {
-    return this.dataSource.transaction(run);
+  private getRepository() {
+    return (this.entityManager ?? this.dataSource).getRepository(OAuthEntity);
   }
 
   async findOne(profile: OAuthProfile): Promise<OAuth | null> {
@@ -30,8 +30,8 @@ export class TypeOrmOAuthRepository implements OAuthRepository {
     return oauth ? OAuthMapper.toOAuth(oauth) : null;
   }
 
-  async insert(profile: OAuthProfile, user: User, em: EntityManager): Promise<OAuth> {
-    const repository = this.getRepository(em);
+  async insert(profile: OAuthProfile, user: User): Promise<OAuth> {
+    const repository = this.getRepository();
     const oauth = repository.create({
       provider: profile.provider,
       providerId: profile.providerId,

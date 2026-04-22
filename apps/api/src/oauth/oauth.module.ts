@@ -2,13 +2,14 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import { GOOGLE_OAUTH_CONFIG, GoogleOAuthConfig } from '@libs/config';
+import { TypeOrmTransaction } from '@libs/persistence';
 
 import { AUTH_STORE, RedisAuthStore } from '../shared';
 
 import { GoogleOAuthClient, OAUTH_CLIENTS, OAuthClient } from './clients';
 import { OAuthController } from './oauth.controller';
 import { OAuthService } from './oauth.service';
-import { OAUTH_REPOSITORY, TypeOrmOAuthRepository, TypeOrmUserRepository, USER_REPOSITORY } from './repositories';
+import { OAUTH_REPOSITORY, OAUTH_UNIT_OF_WORK, type OAuthTxRepositories, TypeOrmOAuthRepository, TypeOrmUserRepository, USER_REPOSITORY } from './repositories';
 
 @Module({
   controllers: [OAuthController],
@@ -41,6 +42,12 @@ import { OAUTH_REPOSITORY, TypeOrmOAuthRepository, TypeOrmUserRepository, USER_R
       provide: OAUTH_REPOSITORY,
       useClass: TypeOrmOAuthRepository,
     },
+    TypeOrmTransaction.toProvider<OAuthTxRepositories>(OAUTH_UNIT_OF_WORK, ({ dataSource, entityManager }) => {
+      return {
+        oauthRepository: new TypeOrmOAuthRepository(dataSource, entityManager),
+        userRepository: new TypeOrmUserRepository(dataSource, entityManager),
+      };
+    }),
   ],
 })
 export class OAuthModule {}
