@@ -15,13 +15,15 @@ import {
   jwtPassportConfig,
   REDIS_CONFIG,
   redisConfig,
-  storageConfig,
+  STORAGE_CLIENT_CONFIG,
+  storageClientConfig,
   TYPEORM_CONFIG,
   typeormConfig,
   WINSTON_CONFIG,
   winstonConfig,
 } from '@libs/config';
 import { GlobalHttpExceptionFilter, GlobalValidationPipe } from '@libs/http';
+import { StorageModule } from '@libs/integrations';
 import { RedisModule } from '@libs/redis';
 
 @Module({
@@ -29,7 +31,7 @@ import { RedisModule } from '@libs/redis';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['apps/api/.env', '.env'],
-      load: [httpConfig, cookieConfig, jwtConfig, jwtPassportConfig, winstonConfig, typeormConfig, redisConfig, bullMqConfig, storageConfig],
+      load: [httpConfig, cookieConfig, jwtConfig, jwtPassportConfig, winstonConfig, typeormConfig, redisConfig, bullMqConfig, storageClientConfig],
     }),
     WinstonModule.forRootAsync({
       inject: [ConfigService],
@@ -38,7 +40,6 @@ import { RedisModule } from '@libs/redis';
       },
     }),
     RedisModule.forRootAsync({
-      subscriber: true,
       inject: [ConfigService],
       useFactory(configService: ConfigService) {
         return configService.getOrThrow(REDIS_CONFIG);
@@ -54,6 +55,12 @@ import { RedisModule } from '@libs/redis';
       inject: [ConfigService],
       useFactory(configService: ConfigService) {
         return configService.getOrThrow(TYPEORM_CONFIG);
+      },
+    }),
+    StorageModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory(configService: ConfigService) {
+        return configService.getOrThrow(STORAGE_CLIENT_CONFIG);
       },
     }),
   ],

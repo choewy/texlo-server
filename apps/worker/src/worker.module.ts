@@ -5,7 +5,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { WinstonModule } from 'nest-winston';
 
-import { BULL_MQ_CONFIG, bullMqConfig, REDIS_CONFIG, redisConfig, storageConfig, TYPEORM_CONFIG, typeormConfig, WINSTON_CONFIG, winstonConfig } from '@libs/config';
+import {
+  BULL_MQ_CONFIG,
+  bullMqConfig,
+  REDIS_CONFIG,
+  redisConfig,
+  STORAGE_CLIENT_CONFIG,
+  storageClientConfig,
+  TYPEORM_CONFIG,
+  typeormConfig,
+  WINSTON_CONFIG,
+  winstonConfig,
+} from '@libs/config';
+import { StorageModule } from '@libs/integrations';
 import { RedisModule } from '@libs/redis';
 
 @Module({
@@ -13,7 +25,7 @@ import { RedisModule } from '@libs/redis';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['apps/api/.env', '.env'],
-      load: [winstonConfig, typeormConfig, redisConfig, bullMqConfig, storageConfig],
+      load: [winstonConfig, typeormConfig, redisConfig, bullMqConfig, storageClientConfig],
     }),
     WinstonModule.forRootAsync({
       inject: [ConfigService],
@@ -38,6 +50,13 @@ import { RedisModule } from '@libs/redis';
       inject: [ConfigService],
       useFactory(configService: ConfigService) {
         return configService.getOrThrow(TYPEORM_CONFIG);
+      },
+    }),
+
+    StorageModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory(configService: ConfigService) {
+        return configService.getOrThrow(STORAGE_CLIENT_CONFIG);
       },
     }),
   ],

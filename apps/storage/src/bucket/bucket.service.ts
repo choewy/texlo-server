@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { randomUUID } from 'crypto';
-import { fileTypeFromBuffer } from 'file-type';
 import { Db, GridFSBucket, GridFSBucketReadStream } from 'mongodb';
 import { Model } from 'mongoose';
 
+import { FileDescriptor } from '@libs/integrations';
 import { File } from '@libs/persistence';
 
 import { BucketFile } from './domain';
-import { InvalidFileTypeException, NotFoundFileException, UploadFailedFileException } from './exceptions';
+import { NotFoundFileException, UploadFailedFileException } from './exceptions';
 
 @Injectable()
 export class BucketService {
@@ -35,12 +35,7 @@ export class BucketService {
   }
 
   async uploadFile(uploadedFile: Express.Multer.File): Promise<BucketFile> {
-    const fileType = await fileTypeFromBuffer(uploadedFile.buffer);
-
-    if (!fileType) {
-      throw new InvalidFileTypeException();
-    }
-
+    const fileType = await FileDescriptor.fromFile(uploadedFile);
     const id = `${randomUUID()}.${fileType.ext}`;
     const filename = Buffer.from(uploadedFile.originalname ?? '', 'latin1').toString('utf-8');
     const stream = this.bucket.openUploadStream(filename, {

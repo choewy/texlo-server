@@ -31,6 +31,8 @@
       "@libs/config/*": ["libs/config/src/*"],
       "@libs/http": ["libs/http/src"],
       "@libs/http/*": ["libs/http/src/*"],
+      "@libs/integrations": ["libs/integrations/src"],
+      "@libs/integrations/*": ["libs/integrations/src/*"],
       "@libs/persistence": ["libs/persistence/src"],
       "@libs/persistence/*": ["libs/persistence/src/*"],
       "@libs/redis": ["libs/redis/src"],

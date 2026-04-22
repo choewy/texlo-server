@@ -12,7 +12,7 @@ import { UploadFileReqDTO, UploadFileResDTO } from './dtos';
 import { BucketGuard } from './guards';
 
 @ApiTags('Bucket')
-@Controller('bucket')
+@Controller()
 export class BucketController {
   constructor(private readonly bucketService: BucketService) {}
 
