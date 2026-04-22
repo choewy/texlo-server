@@ -5,8 +5,8 @@ import { randomUUID } from 'crypto';
 import { Db, GridFSBucket, GridFSBucketReadStream } from 'mongodb';
 import { Model } from 'mongoose';
 
-import { FileDescriptor } from '@libs/integrations';
 import { File } from '@libs/persistence';
+import { FileDescriptor } from '@libs/utils';
 
 import { BucketFile } from './domain';
 import { NotFoundFileException, UploadFailedFileException } from './exceptions';

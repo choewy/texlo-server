@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import { lastValueFrom } from 'rxjs';
 
-import { FileDescriptor } from '@libs/integrations/file-descriptor';
+import { FileDescriptor } from '@libs/utils';
 
 import { StorageClient } from '../contracts';
 import { STORAGE_OPTIONS } from '../tokens';

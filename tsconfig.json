@@ -36,7 +36,9 @@
       "@libs/persistence": ["libs/persistence/src"],
       "@libs/persistence/*": ["libs/persistence/src/*"],
       "@libs/redis": ["libs/redis/src"],
-      "@libs/redis/*": ["libs/redis/src/*"]
+      "@libs/redis/*": ["libs/redis/src/*"],
+      "@libs/utils": ["libs/utils/src"],
+      "@libs/utils/*": ["libs/utils/src/*"]
     }
   }
 }
