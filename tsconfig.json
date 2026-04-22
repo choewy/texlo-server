@@ -24,6 +24,7 @@
     "paths": {
       "@apps/api/*": ["apps/api/src/*"],
       "@apps/storage/*": ["apps/storage/src/*"],
+      "@apps/worker/*": ["apps/worker/src/*"],
       "@libs/config": ["libs/config/src"],
       "@libs/config/*": ["libs/config/src/*"],
       "@libs/http": ["libs/http/src"],

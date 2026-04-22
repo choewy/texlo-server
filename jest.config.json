@@ -7,6 +7,7 @@
   "moduleNameMapper": {
     "^@apps/api/(.*)$": "<rootDir>/apps/api/src/$1",
     "^@apps/storage/(.*)$": "<rootDir>/apps/storage/src/$1",
+    "^@apps/worker/(.*)$": "<rootDir>/apps/worker/src/$1",
     "^@libs/config$": "<rootDir>/libs/config/src",
     "^@libs/config/(.*)$": "<rootDir>/libs/config/src/$1",
     "^@libs/http$": "<rootDir>/libs/http/src",
