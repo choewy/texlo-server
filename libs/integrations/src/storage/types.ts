@@ -15,3 +15,17 @@ export type StorageModuleProviderMap = {
   providers: Provider[];
   exports: (string | symbol | Provider | Abstract<unknown> | DynamicModule | ForwardReference<unknown>)[];
 };
+
+export type StorageFileUploadResponse = {
+  id: string;
+  filename: string;
+  mimetype: string;
+  uploadDate: Date;
+};
+
+export type StorageFileUploadResult = {
+  id: string;
+  url: string;
+  mimetype: string;
+  filename: string;
+};

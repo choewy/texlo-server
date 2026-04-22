@@ -1,4 +1,4 @@
-import { StorageFileUploadResult } from '../usecases';
+import { StorageFileUploadResult } from '../types';
 
 export interface StorageClient {
   uploadFile(file: Express.Multer.File): Promise<StorageFileUploadResult>;
