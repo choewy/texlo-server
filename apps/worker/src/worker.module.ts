@@ -22,6 +22,7 @@ import { RedisModule } from '@libs/redis';
       },
     }),
     RedisModule.forRootAsync({
+      publisher: true,
       inject: [ConfigService],
       useFactory(configService: ConfigService) {
         return configService.getOrThrow(REDIS_CONFIG);
