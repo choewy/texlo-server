@@ -5,17 +5,17 @@ import { Expose } from 'class-transformer';
 export class UploadFileResDTO {
   @ApiProperty({ type: String })
   @Expose()
-  readonly id: string;
+  readonly id!: string;
 
   @ApiProperty({ type: String })
   @Expose()
-  readonly filename: string;
+  readonly filename!: string;
 
   @ApiProperty({ type: String })
   @Expose()
-  readonly mimetype: string;
+  readonly mimetype!: string;
 
   @ApiProperty({ type: Date })
   @Expose()
-  readonly uploadDate: Date;
+  readonly uploadDate!: Date;
 }
