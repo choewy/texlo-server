@@ -28,11 +28,13 @@ import { StorageModule } from '@libs/integrations';
 import { RedisModule } from '@libs/redis';
 
 import { AuthModule } from './auth/auth.module';
+import { ContextModule } from './common';
 import { OAuthModule } from './oauth/oauth.module';
 import { VoiceModule } from './voice/voice.module';
 
 @Module({
   imports: [
+    ContextModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['apps/api/.env', '.env'],
