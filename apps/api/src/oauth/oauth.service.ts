@@ -48,13 +48,13 @@ export class OAuthService {
 
     let oauth = await this.oauthRepository.findOne(profile);
 
-    if (!oauth) {
-      oauth = await this.oauthUnitOfWork.transaction(async ({ userRepository, oauthRepository }) => {
-        const user = await userRepository.insert();
-        return oauthRepository.insert(profile, user);
-      });
-    } else {
+    if (oauth) {
       await this.oauthRepository.update(oauth.id, profile);
+    } else {
+      oauth = await this.oauthUnitOfWork.tx(async (repo) => {
+        const user = await repo.user.insert();
+        return repo.oauth.insert(profile, user);
+      });
     }
 
     return this.authStore.set(oauth.userId);
