@@ -10,6 +10,7 @@ import {
   BULL_MQ_CONFIG,
   bullMqConfig,
   cookieConfig,
+  googleOAuthConfig,
   httpConfig,
   jwtConfig,
   jwtPassportConfig,
@@ -26,6 +27,8 @@ import { GlobalHttpExceptionFilter, GlobalValidationPipe } from '@libs/http';
 import { StorageModule } from '@libs/integrations';
 import { RedisModule } from '@libs/redis';
 
+import { AuthModule } from './auth/auth.module';
+import { OAuthModule } from './oauth/oauth.module';
 import { VoiceModule } from './voice/voice.module';
 
 @Module({
@@ -33,7 +36,7 @@ import { VoiceModule } from './voice/voice.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['apps/api/.env', '.env'],
-      load: [httpConfig, cookieConfig, jwtConfig, jwtPassportConfig, winstonConfig, typeormConfig, redisConfig, bullMqConfig, storageClientConfig],
+      load: [httpConfig, cookieConfig, jwtConfig, jwtPassportConfig, winstonConfig, typeormConfig, redisConfig, bullMqConfig, storageClientConfig, googleOAuthConfig],
     }),
     WinstonModule.forRootAsync({
       inject: [ConfigService],
@@ -65,6 +68,8 @@ import { VoiceModule } from './voice/voice.module';
         return configService.getOrThrow(STORAGE_CLIENT_CONFIG);
       },
     }),
+    AuthModule,
+    OAuthModule,
     VoiceModule,
   ],
   providers: [

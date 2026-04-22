@@ -1,4 +1,6 @@
-import { CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+
+import { OAuthEntity } from './oauth.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -10,4 +12,7 @@ export class UserEntity {
 
   @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt!: Date;
+
+  @OneToMany(() => OAuthEntity, (e) => e.user, { cascade: ['insert', 'remove'] })
+  oauths!: OAuthEntity;
 }

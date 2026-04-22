@@ -9,3 +9,4 @@ export const MONGOOSE_CONFIG = Symbol('MONGOOSE_CONFIG');
 export const WINSTON_CONFIG = Symbol('WINSTON_CONFIG');
 export const STORAGE_CONFIG = Symbol('STORAGE_CONFIG');
 export const STORAGE_CLIENT_CONFIG = Symbol('STORAGE_CLIENT_CONFIG');
+export const GOOGLE_OAUTH_CONFIG = Symbol('GOOGLE_OAUTH_CONFIG');

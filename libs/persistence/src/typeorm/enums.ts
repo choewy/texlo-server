@@ -1,3 +1,7 @@
+export enum OAuthProvider {
+  Google = 'google',
+}
+
 export enum VoiceProvider {
   Typecast = 'typecast',
   Supertone = 'supertone',
