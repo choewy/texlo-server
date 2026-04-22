@@ -1,10 +1,10 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { UserEntity } from './user.entity';
 import { VoiceEntity } from './voice.entity';
 
 @Entity({ name: 'favorite_voices' })
-@Unique('FAVORITE_VOICES_UNIQUE_KEY', ['userId', 'voiceId'])
+@Index('FAVORITE_VOICES_UNIQUE_KEY', ['userId', 'voiceId'], { unique: true })
 export class FavoriteVoiceEntity {
   @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'FAVORITE_VOICE_PK' })
   id!: string;

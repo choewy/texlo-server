@@ -44,7 +44,7 @@ export class VoiceEntity {
   @Column({ type: 'varchar', length: 30, array: true, default: [] })
   usecases!: string[];
 
-  @Column({ type: 'bigint', default: 0 })
+  @Column({ type: 'int', default: 0 })
   likes!: number;
 
   @Column({ type: 'enum', enum: VoiceStatus, default: VoiceStatus.Activated })
