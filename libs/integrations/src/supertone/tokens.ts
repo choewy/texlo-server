@@ -1,0 +1,2 @@
+export const SUPERTONE_OPTIONS = Symbol('SUPERTONE_OPTIONS');
+export const SUPERTONE_CLIENT = Symbol('SUPERTONE_CLIENT');
