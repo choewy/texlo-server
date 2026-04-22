@@ -26,7 +26,7 @@ export class TypeOrmVoiceRepository implements VoiceRepository {
       .addOrderBy('voice.id', 'ASC');
 
     if (params.userId) {
-      qb.leftJoinAndMapOne('voice.favorite', 'voice.favorite', 'favorite', 'favorite.userId = :userId AND farovite.voiceId = voice.id', {
+      qb.leftJoinAndMapOne('voice.favorite', 'voice.favorite', 'favorite', 'favorite.userId = :userId AND favorite.voiceId = voice.id', {
         userId: params.userId,
       });
     }
