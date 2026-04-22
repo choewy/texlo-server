@@ -5,18 +5,28 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { WinstonModule } from 'nest-winston';
 
-import { cookieConfig, httpConfig, jwtConfig, jwtPassportConfig, REDIS_CONFIG, redisConfig, TYPEORM_CONFIG, typeormConfig, WINSTON_CONFIG, winstonConfig } from '@libs/config';
+import {
+  cookieConfig,
+  httpConfig,
+  jwtConfig,
+  jwtPassportConfig,
+  REDIS_CONFIG,
+  redisConfig,
+  storageConfig,
+  TYPEORM_CONFIG,
+  typeormConfig,
+  WINSTON_CONFIG,
+  winstonConfig,
+} from '@libs/config';
 import { GlobalHttpExceptionFilter, GlobalValidationPipe } from '@libs/http';
 import { RedisModule } from '@libs/redis';
-
-import { WhisperModule } from './whisper';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['apps/api/.env', '.env'],
-      load: [httpConfig, cookieConfig, jwtConfig, jwtPassportConfig, winstonConfig, typeormConfig, redisConfig],
+      load: [httpConfig, cookieConfig, jwtConfig, jwtPassportConfig, winstonConfig, typeormConfig, redisConfig, storageConfig],
     }),
     WinstonModule.forRootAsync({
       inject: [ConfigService],
@@ -36,7 +46,6 @@ import { WhisperModule } from './whisper';
         return configService.getOrThrow(TYPEORM_CONFIG);
       },
     }),
-    WhisperModule,
   ],
   providers: [
     {

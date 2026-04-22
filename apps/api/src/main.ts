@@ -17,6 +17,7 @@ async function bootstrap() {
   const { port, hostname, cors } = configService.getOrThrow<HttpConfig>(HTTP_CONFIG);
 
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+  app.enableShutdownHooks();
   app.setGlobalPrefix('api');
   app.enableVersioning({ defaultVersion: '1', type: VersioningType.URI });
   app.enableCors(cors);
