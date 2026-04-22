@@ -1,4 +1,3 @@
-import { HttpModule } from '@nestjs/axios';
 import { DynamicModule, Module } from '@nestjs/common';
 
 import { SupertoneClientImpl } from './implements';
@@ -12,7 +11,6 @@ export class SupertoneModule {
 
     return {
       global: true,
-      imports: [HttpModule],
       module: SupertoneModule,
       providers,
       exports,
@@ -24,7 +22,6 @@ export class SupertoneModule {
 
     return {
       module: SupertoneModule,
-      imports: [HttpModule],
       providers,
       exports,
     };

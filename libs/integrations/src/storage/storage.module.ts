@@ -1,4 +1,3 @@
-import { HttpModule } from '@nestjs/axios';
 import { DynamicModule, Module } from '@nestjs/common';
 
 import { StorageClientImpl } from './implements';
@@ -12,7 +11,6 @@ export class StorageModule {
 
     return {
       global: true,
-      imports: [HttpModule],
       module: StorageModule,
       providers,
       exports,
@@ -24,7 +22,6 @@ export class StorageModule {
 
     return {
       module: StorageModule,
-      imports: [HttpModule],
       providers,
       exports,
     };
