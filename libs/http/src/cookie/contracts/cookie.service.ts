@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-export interface CookieServiceContract {
+export interface CookieService {
   parseAccessToken(req: Request): string;
   parseRefreshToken(req: Request): string;
   setCacheControl(res: Response): void;

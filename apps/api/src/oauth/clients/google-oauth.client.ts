@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import axios, { AxiosInstance } from 'axios';
 import { stringify } from 'querystring';
 
-import { GOOGLE_OAUTH_CONFIG, type GoogleOAuthConfig } from '@libs/config';
+import { type GoogleOAuthConfig, googleOAuthConfig } from '@libs/config';
 
 import { OAuthProfile, OAuthProvider } from '../domain';
 
@@ -16,7 +16,7 @@ export class GoogleOAuthClient implements OAuthClient {
   readonly provider = OAuthProvider.Google;
 
   constructor(
-    @Inject(GOOGLE_OAUTH_CONFIG)
+    @Inject(googleOAuthConfig.KEY)
     private readonly config: GoogleOAuthConfig,
   ) {
     this.api = axios.create();

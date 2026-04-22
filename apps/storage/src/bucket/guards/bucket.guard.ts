@@ -2,12 +2,12 @@ import { CanActivate, ExecutionContext, ForbiddenException, Inject, Injectable }
 
 import { Request } from 'express';
 
-import { STORAGE_CONFIG, type StorageConfig } from '@libs/config';
+import { type StorageConfig, storageConfig } from '@libs/config';
 
 @Injectable()
 export class BucketGuard implements CanActivate {
   constructor(
-    @Inject(STORAGE_CONFIG)
+    @Inject(storageConfig.KEY)
     private readonly storageConfig: StorageConfig,
   ) {}
 

@@ -1,6 +1,8 @@
 import { ConfigService, ConfigType, registerAs } from '@nestjs/config';
 import { JwtModuleOptions } from '@nestjs/jwt';
 
+import { WithSecretOrKey } from 'passport-jwt';
+
 import { JWT_CONFIG, JWT_PASSPORT_CONFIG } from '../tokens';
 
 export const jwtConfig = registerAs(JWT_CONFIG, (): JwtModuleOptions => {
@@ -13,7 +15,7 @@ export const jwtConfig = registerAs(JWT_CONFIG, (): JwtModuleOptions => {
 
 export type JwtConfig = ConfigType<typeof jwtConfig>;
 
-export const jwtPassportConfig = registerAs(JWT_PASSPORT_CONFIG, () => {
+export const jwtPassportConfig = registerAs(JWT_PASSPORT_CONFIG, (): Pick<WithSecretOrKey, 'secretOrKey'> => {
   const configService = new ConfigService();
 
   return {

@@ -1,5 +1,4 @@
 export * from './types';
+export * from './tokens';
 export * from './contracts';
-export * from './types';
-export * from './providers';
 export * from './cookie.module';

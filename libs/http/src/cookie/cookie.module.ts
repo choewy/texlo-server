@@ -1,7 +1,7 @@
 import { DynamicModule, Module } from '@nestjs/common';
 
-import { COOKIE_OPTIONS, COOKIE_SERVICE } from './contracts';
-import { CookieService } from './providers';
+import { CookieServiceImpl } from './implements';
+import { COOKIE_OPTIONS, COOKIE_SERVICE } from './tokens';
 import { CookieModuleAsyncOptions } from './types';
 
 @Module({})
@@ -19,9 +19,8 @@ export class CookieModule {
         },
         {
           provide: COOKIE_SERVICE,
-          useExisting: CookieService,
+          useClass: CookieServiceImpl,
         },
-        CookieService,
       ],
       exports: [COOKIE_SERVICE],
     };

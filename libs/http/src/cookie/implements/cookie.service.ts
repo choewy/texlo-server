@@ -2,11 +2,12 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import { type CookieOptions, type Request, type Response } from 'express';
 
-import { COOKIE_OPTIONS, CookieServiceContract } from '../contracts';
+import { CookieService } from '../contracts';
 import { CookieKey } from '../enums';
+import { COOKIE_OPTIONS } from '../tokens';
 
 @Injectable()
-export class CookieService implements CookieServiceContract {
+export class CookieServiceImpl implements CookieService {
   constructor(
     @Inject(COOKIE_OPTIONS)
     private readonly cookieOptions: CookieOptions,

@@ -52,7 +52,6 @@ import { RedisModule } from '@libs/redis';
         return configService.getOrThrow(TYPEORM_CONFIG);
       },
     }),
-
     StorageModule.forRootAsync({
       inject: [ConfigService],
       useFactory(configService: ConfigService) {

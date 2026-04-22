@@ -1,2 +1,1 @@
-export * from './tokens';
-export * from './cookie.service.contract';
+export * from './cookie.service';

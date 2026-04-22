@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 
 import { DataSource } from 'typeorm';
 
-import { GOOGLE_OAUTH_CONFIG, GoogleOAuthConfig } from '@libs/config';
 import { TypeOrmTransaction } from '@libs/persistence';
 
 import { AUTH_STORE, RedisAuthStore } from '../shared';
@@ -18,13 +16,6 @@ import { OAUTH_REPOSITORY, OAUTH_UNIT_OF_WORK, OAuthTxRepositories, TypeOrmOAuth
   providers: [
     OAuthService,
     GoogleOAuthClient,
-    {
-      inject: [ConfigService],
-      provide: GOOGLE_OAUTH_CONFIG,
-      useFactory(configService: ConfigService) {
-        return configService.getOrThrow<GoogleOAuthConfig>(GOOGLE_OAUTH_CONFIG);
-      },
-    },
     {
       provide: OAUTH_CLIENTS,
       inject: [GoogleOAuthClient],
