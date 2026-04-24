@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 
 import { STORAGE_CLIENT, type StorageClient } from '@libs/integrations';
+import { FileDescriptor } from '@libs/utils';
 
 import { OAuth } from './domain';
 import { OAUTH_REPOSITORY, type OAuthRepository, USER_REPOSITORY, type UserRepository } from './repositories';
@@ -33,8 +34,9 @@ export class UserService {
 
   async updateProfileImage(id: string, file: Express.Multer.File): Promise<void> {
     const user = await this.userRepository.findOneByIdOrFail(id);
+    const resizedFile = await FileDescriptor.resizeImageFile(file);
 
-    const uploadResult = await this.storageClient.uploadFile(file);
+    const uploadResult = await this.storageClient.uploadFile(resizedFile);
     await this.userRepository.update(id, { profileImageUrl: uploadResult.url });
     await this.storageClient.remove(user.profileImageUrl ?? '');
   }
