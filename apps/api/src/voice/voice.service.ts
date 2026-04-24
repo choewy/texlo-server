@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 
 import { VOICE_REPOSITORY, type VoiceRepository } from './repositories';
+import { GetVoicesInput, GetVoicesResult } from './usecases';
 
 @Injectable()
 export class VoiceService {
@@ -8,4 +9,10 @@ export class VoiceService {
     @Inject(VOICE_REPOSITORY)
     private readonly voiceRepository: VoiceRepository,
   ) {}
+
+  async getVoices(input: GetVoicesInput, userId?: string): Promise<GetVoicesResult> {
+    const [rows, total] = await this.voiceRepository.find({ ...input, userId });
+
+    return { total, rows };
+  }
 }

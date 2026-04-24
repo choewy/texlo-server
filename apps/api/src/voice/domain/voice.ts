@@ -1,10 +1,10 @@
-import { VoiceAge, VoiceGender, VoiceLanguage, VoiceProvider } from '@libs/persistence';
+import { VoiceAge, VoiceGender, VoiceLanguage, VoiceProvider } from '@apps/api/shared';
 
 export class Voice {
   id!: string;
   provider!: VoiceProvider;
-  code!: string;
   name!: string;
+  code!: string;
   imageUrl!: string | null;
   soundUrl!: string | null;
   gender!: VoiceGender | null;
