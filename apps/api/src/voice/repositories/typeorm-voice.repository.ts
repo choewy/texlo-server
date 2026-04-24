@@ -4,6 +4,8 @@ import { DataSource, EntityManager } from 'typeorm';
 
 import { VoiceEntity } from '@libs/persistence';
 
+import { VoiceStatus } from '@apps/api/shared';
+
 import { Voice } from '../domain/voice';
 import { VoiceMapper } from '../mappers';
 
@@ -22,7 +24,7 @@ export class TypeOrmVoiceRepository implements VoiceRepository {
       .createQueryBuilder('voice')
       .skip((params.page - 1) * params.take)
       .take(params.take)
-      .where('1 = 1')
+      .where('voice.status =: status', { status: VoiceStatus.Activated })
       .orderBy('voice.createdAt', 'ASC')
       .addOrderBy('voice.id', 'ASC');
 

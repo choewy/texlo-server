@@ -1,5 +1,5 @@
 import { Controller, Get, HttpStatus, Param, ParseEnumPipe, Query, Res } from '@nestjs/common';
-import { ApiExcludeEndpoint, ApiFoundResponse, ApiOperation, ApiPermanentRedirectResponse, ApiTags } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiFoundResponse, ApiOperation, ApiParam, ApiPermanentRedirectResponse, ApiTags } from '@nestjs/swagger';
 
 import { type Response } from 'express';
 
@@ -17,6 +17,7 @@ export class OAuthController {
 
   @Get(':provider/login')
   @ApiOperation({ summary: 'OAuth2.0 로그인' })
+  @ApiParam({ name: 'provider', enum: OAuthProvider })
   @ApiFoundResponse()
   @ApiPermanentRedirectResponse({ type: OAuthProcessResDTO })
   login(@Param('provider', new ParseEnumPipe(OAuthProvider)) provider: OAuthProvider, @Query() query: OAuthLoginReqDTO, @Res() res: Response) {
@@ -27,6 +28,7 @@ export class OAuthController {
 
   @Get(':provider/process')
   @ApiExcludeEndpoint()
+  @ApiParam({ name: 'provider', enum: OAuthProvider })
   @ApiOperation({ summary: 'OAuth2.0 인증 처리' })
   @ApiPermanentRedirectResponse({ type: OAuthProcessResDTO })
   async process(@Param('provider', new ParseEnumPipe(OAuthProvider)) provider: OAuthProvider, @Query() query: OAuthProcessReqDTO, @Res() res: Response) {
