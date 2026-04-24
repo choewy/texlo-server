@@ -4,7 +4,7 @@ import { DataSource } from 'typeorm';
 
 import { TypeOrmTransaction } from '@libs/persistence';
 
-import { AUTH_STORE, RedisAuthStore } from '../shared';
+import { AUTH_TOKEN_STORE, RedisAuthTokenStore } from '../shared';
 
 import { GoogleOAuthClient, OAUTH_CLIENTS, OAuthClient } from './clients';
 import { OAuthController } from './oauth.controller';
@@ -24,8 +24,8 @@ import { OAUTH_REPOSITORY, OAUTH_UNIT_OF_WORK, OAuthTxRepositories, TypeOrmOAuth
       },
     },
     {
-      provide: AUTH_STORE,
-      useClass: RedisAuthStore,
+      provide: AUTH_TOKEN_STORE,
+      useClass: RedisAuthTokenStore,
     },
     {
       provide: USER_REPOSITORY,

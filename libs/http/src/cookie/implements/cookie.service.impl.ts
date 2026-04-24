@@ -17,6 +17,13 @@ export class CookieServiceImpl implements CookieService {
     return request.cookies as Record<CookieKey, string>;
   }
 
+  parseTokens(req: Request): { accessToken: string; refreshToken: string } {
+    return {
+      accessToken: this.parseAccessToken(req),
+      refreshToken: this.parseRefreshToken(req),
+    };
+  }
+
   parseAccessToken(request: Request): string {
     return (this.getCookies(request)[CookieKey.AccessToken] ?? '').trim();
   }
@@ -29,12 +36,12 @@ export class CookieServiceImpl implements CookieService {
     response.setHeader('Cache-Control', 'no-store');
   }
 
-  setAuthSession(response: Response, accessToken: string, refreshToken: string): void {
-    this.setAccessToken(response, accessToken);
-    this.setRefreshToken(response, refreshToken);
+  setTokens(response: Response, tokens: { accessToken: string; refreshToken: string }): void {
+    this.setAccessToken(response, tokens.accessToken);
+    this.setRefreshToken(response, tokens.refreshToken);
   }
 
-  clearAuthSession(response: Response): void {
+  clearTokens(response: Response): void {
     this.clearAccessToken(response);
     this.clearRefreshToken(response);
   }

@@ -1,39 +1,65 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { AUTH_STORE, type AuthStore } from '../shared';
+import { AUTH_TOKEN_STORE, type AuthTokenStore } from '../shared';
 
-import { InvalidAuthTokenException } from './exceptions';
-import { ACCESS_TOKEN_ISSUER, type AccessTokenIssuer } from './security';
-import { IssueTokenInput } from './usecaces';
+import { InvalidAuthTokenException, InvalidTokenException } from './exceptions';
+import { ACCESS_TOKEN_ISSUER, type AccessTokenIssuer, REFRESH_TOKEN_ISSUER, type RefreshTokenIssuer } from './security';
+import { IssueTokenInput, IssueTokenResult, LogoutInput, RefreshTokenInput, RefreshTokenResult } from './usecaces';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(AUTH_STORE)
-    private readonly authTokenStore: AuthStore,
+    @Inject(AUTH_TOKEN_STORE)
+    private readonly authTokenStore: AuthTokenStore,
     @Inject(ACCESS_TOKEN_ISSUER)
     private readonly accessTokenIssuer: AccessTokenIssuer,
+    @Inject(REFRESH_TOKEN_ISSUER)
+    private readonly refreshTokenIssuer: RefreshTokenIssuer,
   ) {}
 
-  async issue(input: IssueTokenInput) {
+  async issue(input: IssueTokenInput): Promise<IssueTokenResult> {
     const id = await this.authTokenStore.get(input.authToken);
 
     if (!id) {
       throw new InvalidAuthTokenException();
     }
 
-    const accessToken = this.accessTokenIssuer.issue(id);
+    const accessToken = await this.accessTokenIssuer.issue(id);
+    const refreshToken = await this.refreshTokenIssuer.issue(id, accessToken);
 
-    return { accessToken };
+    return { accessToken, refreshToken };
   }
 
-  async refresh() {
-    await Promise.resolve();
-    return;
+  async refresh(input: RefreshTokenInput): Promise<RefreshTokenResult> {
+    const value = await this.refreshTokenIssuer.get(input.refreshToken);
+
+    if (!value) {
+      throw new InvalidTokenException();
+    }
+
+    if (value.accessToken !== input.accessToken) {
+      throw new InvalidTokenException();
+    }
+
+    await this.refreshTokenIssuer.revoke(input.refreshToken);
+
+    const accessToken = await this.accessTokenIssuer.issue(value.id);
+    const refreshToken = await this.refreshTokenIssuer.issue(value.id, accessToken);
+
+    return { accessToken, refreshToken };
   }
 
-  async logout() {
-    await Promise.resolve();
-    return;
+  async logout(input: LogoutInput): Promise<void> {
+    const value = await this.refreshTokenIssuer.get(input.refreshToken);
+
+    if (!value) {
+      return;
+    }
+
+    if (value.accessToken !== input.accessToken) {
+      return;
+    }
+
+    await this.refreshTokenIssuer.revoke(input.refreshToken);
   }
 }

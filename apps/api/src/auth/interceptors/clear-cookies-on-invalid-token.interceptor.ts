@@ -20,7 +20,7 @@ export class ClearCookiesOnInvalidTokenInterceptor implements NestInterceptor {
     return next.handle().pipe(
       catchError((error: unknown) => {
         if (error instanceof InvalidTokenException) {
-          this.cookieService.clearAuthSession(response);
+          this.cookieService.clearTokens(response);
         }
 
         return throwError(() => error);

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { AUTH_STORE, type AuthStore } from '../shared';
+import { AUTH_TOKEN_STORE, type AuthTokenStore } from '../shared';
 
 import { OAUTH_CLIENTS, OAuthClient } from './clients';
 import { OAuthProvider } from './domain';
@@ -13,8 +13,8 @@ export class OAuthService {
   constructor(
     @Inject(OAUTH_CLIENTS)
     private readonly oauthClients: OAuthClient[],
-    @Inject(AUTH_STORE)
-    private readonly authStore: AuthStore,
+    @Inject(AUTH_TOKEN_STORE)
+    private readonly authTokenStore: AuthTokenStore,
     @Inject(OAUTH_REPOSITORY)
     private readonly oauthRepository: OAuthRepository,
     @Inject(OAUTH_UNIT_OF_WORK)
@@ -57,6 +57,6 @@ export class OAuthService {
       });
     }
 
-    return this.authStore.set(oauth.userId);
+    return this.authTokenStore.set(oauth.userId);
   }
 }

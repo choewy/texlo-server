@@ -4,10 +4,10 @@ import { randomUUID } from 'crypto';
 
 import { REDIS_CLIENT, RedisClient } from '@libs/redis';
 
-import { AuthStore } from './auth.store';
+import { AuthTokenStore } from './auth-token.store';
 
 @Injectable()
-export class RedisAuthStore implements AuthStore {
+export class RedisAuthTokenStore implements AuthTokenStore {
   constructor(
     @Inject(REDIS_CLIENT)
     private readonly redisClient: RedisClient,

@@ -6,13 +6,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { COOKIE_CONFIG, JWT_CONFIG } from '@libs/config';
 import { CookieModule } from '@libs/http';
 
-import { AUTH_STORE, RedisAuthStore } from '../shared';
+import { AUTH_TOKEN_STORE, RedisAuthTokenStore } from '../shared';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtGuard, JwtStrategy } from './guards';
 import { ClearCookiesOnInvalidTokenInterceptor } from './interceptors';
-import { ACCESS_TOKEN_ISSUER, JwtAccessTokenIssuer } from './security';
+import { ACCESS_TOKEN_ISSUER, JwtAccessTokenIssuer, JwtRefreshTokenIssuer, REFRESH_TOKEN_ISSUER } from './security';
 
 @Module({
   imports: [
@@ -35,12 +35,16 @@ import { ACCESS_TOKEN_ISSUER, JwtAccessTokenIssuer } from './security';
     JwtStrategy,
     ClearCookiesOnInvalidTokenInterceptor,
     {
-      provide: AUTH_STORE,
-      useClass: RedisAuthStore,
+      provide: AUTH_TOKEN_STORE,
+      useClass: RedisAuthTokenStore,
     },
     {
       provide: ACCESS_TOKEN_ISSUER,
       useClass: JwtAccessTokenIssuer,
+    },
+    {
+      provide: REFRESH_TOKEN_ISSUER,
+      useClass: JwtRefreshTokenIssuer,
     },
     {
       provide: APP_GUARD,
