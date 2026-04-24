@@ -5,7 +5,7 @@ import { type Request, type Response } from 'express';
 
 import { COOKIE_SERVICE, type CookieService } from '@libs/http';
 
-import { Public } from '../common';
+import { CookieKey, Public } from '../common';
 
 import { AuthService } from './auth.service';
 import { IssueTokenReqDTO } from './dtos';
@@ -28,17 +28,23 @@ export class AuthController {
   async issue(@Body() body: IssueTokenReqDTO, @Res({ passthrough: true }) res: Response) {
     const tokens = await this.authService.issue(body);
 
-    this.cookieService.setTokens(res, tokens);
+    this.cookieService.setCacheControl(res);
+    this.cookieService.set(res, CookieKey.AccessToken, tokens.accessToken, 20);
+    this.cookieService.set(res, CookieKey.RefreshToken, tokens.refreshToken, 20);
   }
 
   @Post('refresh')
   @ApiOperation({ summary: '토큰 갱신' })
   @ApiCreatedResponse()
   async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    const input = this.cookieService.parseTokens(req);
-    const tokens = await this.authService.refresh(input);
+    const tokens = await this.authService.refresh({
+      accessToken: this.cookieService.parse(req, CookieKey.AccessToken),
+      refreshToken: this.cookieService.parse(req, CookieKey.RefreshToken),
+    });
 
-    this.cookieService.setTokens(res, tokens);
+    this.cookieService.setCacheControl(res);
+    this.cookieService.set(res, CookieKey.AccessToken, tokens.accessToken, 20);
+    this.cookieService.set(res, CookieKey.RefreshToken, tokens.refreshToken, 20);
   }
 
   @Delete('logout')
@@ -46,9 +52,12 @@ export class AuthController {
   @ApiOperation({ summary: '로그아웃' })
   @ApiNoContentResponse()
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    const input = this.cookieService.parseTokens(req);
-    await this.authService.logout(input);
+    await this.authService.logout({
+      accessToken: this.cookieService.parse(req, CookieKey.AccessToken),
+      refreshToken: this.cookieService.parse(req, CookieKey.RefreshToken),
+    });
 
-    this.cookieService.clearTokens(res);
+    this.cookieService.clear(res, CookieKey.AccessToken);
+    this.cookieService.clear(res, CookieKey.RefreshToken);
   }
 }

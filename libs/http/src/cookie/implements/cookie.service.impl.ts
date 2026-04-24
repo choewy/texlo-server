@@ -3,7 +3,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import { type CookieOptions, type Request, type Response } from 'express';
 
 import { CookieService } from '../contracts';
-import { CookieKey } from '../enums';
 import { COOKIE_OPTIONS } from '../tokens';
 
 @Injectable()
@@ -13,70 +12,32 @@ export class CookieServiceImpl implements CookieService {
     private readonly cookieOptions: CookieOptions,
   ) {}
 
-  private getCookies(request: Request) {
-    return request.cookies as Record<CookieKey, string>;
-  }
-
-  parseTokens(req: Request): { accessToken: string; refreshToken: string } {
-    return {
-      accessToken: this.parseAccessToken(req),
-      refreshToken: this.parseRefreshToken(req),
-    };
-  }
-
-  parseAccessToken(request: Request): string {
-    return (this.getCookies(request)[CookieKey.AccessToken] ?? '').trim();
-  }
-
-  parseRefreshToken(request: Request): string {
-    return (this.getCookies(request)[CookieKey.RefreshToken] ?? '').trim();
+  private getCookies(request: Request): Record<string, string> {
+    return request.cookies;
   }
 
   setCacheControl(response: Response): void {
     response.setHeader('Cache-Control', 'no-store');
   }
 
-  setTokens(response: Response, tokens: { accessToken: string; refreshToken: string }): void {
-    this.setAccessToken(response, tokens.accessToken);
-    this.setRefreshToken(response, tokens.refreshToken);
+  parse(req: Request, key: string): string {
+    return (this.getCookies(req)[key] ?? '').trim();
   }
 
-  clearTokens(response: Response): void {
-    this.clearAccessToken(response);
-    this.clearRefreshToken(response);
-  }
-
-  setAccessToken(response: Response, accessToken: string): void {
-    response.cookie(CookieKey.AccessToken, accessToken, {
+  set(res: Response, key: string, value: string, maxAgeDays?: number): void {
+    res.cookie(key, value, {
       ...this.cookieOptions,
-      maxAge: 1000 * 60 * 60 * 24 * 20,
+      maxAge: maxAgeDays ? 1000 * 60 * 60 * 24 * maxAgeDays : undefined,
       path: '/',
     });
   }
 
-  clearAccessToken(response: Response): void {
-    response.cookie(CookieKey.AccessToken, '', {
+  clear(res: Response, key: string): void {
+    res.cookie(key, '', {
       ...this.cookieOptions,
       expires: new Date(0),
       maxAge: 0,
       path: '/',
-    });
-  }
-
-  setRefreshToken(response: Response, refreshToken: string) {
-    response.cookie(CookieKey.RefreshToken, refreshToken, {
-      ...this.cookieOptions,
-      maxAge: 1000 * 60 * 60 * 24 * 20,
-      path: '/api/v1',
-    });
-  }
-
-  clearRefreshToken(response: Response) {
-    response.cookie(CookieKey.RefreshToken, '', {
-      ...this.cookieOptions,
-      expires: new Date(0),
-      maxAge: 0,
-      path: '/api/v1',
     });
   }
 }

@@ -8,7 +8,7 @@ import { Strategy } from 'passport-jwt';
 import { jwtPassportConfig } from '@libs/config';
 import { COOKIE_SERVICE, type CookieService } from '@libs/http';
 
-import { ContextUser } from '@apps/api/common';
+import { ContextUser, CookieKey } from '@apps/api/common';
 
 import { InvalidTokenException } from '../exceptions';
 import { JwtClaims } from '../security';
@@ -22,7 +22,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     cookieService: CookieService,
   ) {
     super({
-      jwtFromRequest: (req: Request) => cookieService.parseAccessToken(req),
+      jwtFromRequest: (req: Request) => cookieService.parse(req, CookieKey.AccessToken),
       secretOrKey: config.secretOrKey,
     });
   }
