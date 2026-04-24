@@ -24,22 +24,54 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@apps/admin/*": ["apps/admin/src/*"],
-      "@apps/api/*": ["apps/api/src/*"],
-      "@apps/storage/*": ["apps/storage/src/*"],
-      "@apps/worker/*": ["apps/worker/src/*"],
-      "@libs/config": ["libs/config/src"],
-      "@libs/config/*": ["libs/config/src/*"],
-      "@libs/http": ["libs/http/src"],
-      "@libs/http/*": ["libs/http/src/*"],
-      "@libs/integrations": ["libs/integrations/src"],
-      "@libs/integrations/*": ["libs/integrations/src/*"],
-      "@libs/persistence": ["libs/persistence/src"],
-      "@libs/persistence/*": ["libs/persistence/src/*"],
-      "@libs/redis": ["libs/redis/src"],
-      "@libs/redis/*": ["libs/redis/src/*"],
-      "@libs/utils": ["libs/utils/src"],
-      "@libs/utils/*": ["libs/utils/src/*"]
+      "@apps/admin/*": [
+        "apps/admin/src/*"
+      ],
+      "@apps/api/*": [
+        "apps/api/src/*"
+      ],
+      "@apps/storage/*": [
+        "apps/storage/src/*"
+      ],
+      "@apps/worker/*": [
+        "apps/worker/src/*"
+      ],
+      "@libs/config": [
+        "libs/config/src"
+      ],
+      "@libs/config/*": [
+        "libs/config/src/*"
+      ],
+      "@libs/http": [
+        "libs/http/src"
+      ],
+      "@libs/http/*": [
+        "libs/http/src/*"
+      ],
+      "@libs/integrations": [
+        "libs/integrations/src"
+      ],
+      "@libs/integrations/*": [
+        "libs/integrations/src/*"
+      ],
+      "@libs/persistence": [
+        "libs/persistence/src"
+      ],
+      "@libs/persistence/*": [
+        "libs/persistence/src/*"
+      ],
+      "@libs/redis": [
+        "libs/redis/src"
+      ],
+      "@libs/redis/*": [
+        "libs/redis/src/*"
+      ],
+      "@libs/utils": [
+        "libs/utils/src"
+      ],
+      "@libs/utils/*": [
+        "libs/utils/src/*"
+      ]
     }
   }
 }

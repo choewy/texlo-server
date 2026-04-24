@@ -23,7 +23,7 @@ export const typeormConfig = registerAs(TYPEORM_CONFIG, (): TypeOrmModuleOptions
     logging: isLocal ? true : ['error', 'warn'],
     entities: [resolve(DIST_APP_ROOT, 'libs/**/*.entity.{js,ts}')],
     migrations: [resolve(DIST_APP_ROOT, 'apps/**/*-migration.{js,ts}')],
-    synchronize: true,
+    synchronize: false,
   };
 });
 

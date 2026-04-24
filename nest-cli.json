@@ -56,6 +56,15 @@
         "tsConfigPath": "libs/integrations/tsconfig.lib.json"
       }
     },
+    "migration": {
+      "type": "application",
+      "root": "apps/migration",
+      "entryFile": "main",
+      "sourceRoot": "apps/migration/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/migration/tsconfig.app.json"
+      }
+    },
     "persistence": {
       "type": "library",
       "root": "libs/persistence",

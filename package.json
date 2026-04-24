@@ -23,6 +23,11 @@
     "worker:dev": "nest start worker --watch",
     "worker:build": "nest build worker",
     "worker:prod": "node dist/apps/worker/src/main",
+    "migration:build": "nest build migration",
+    "migration:create": "typeorm migration:create apps/migration/src/migrations/migration",
+    "migration:generate": "typeorm migration:generate -d dist/apps/migration/src/main apps/migration/src/migrations/migration",
+    "migration:run": "node node_modules/typeorm/cli.js -d dist/apps/migration/src/main migration:run",
+    "migration:revert": "node node_modules/typeorm/cli.js -d dist/apps/migration/src/main migration:revert",
     "test": "jest --config jest.config.json --passWithNoTests",
     "test:watch": "jest --config jest.config.json --watch",
     "test:cov": "jest --config jest.config.json --coverage"
