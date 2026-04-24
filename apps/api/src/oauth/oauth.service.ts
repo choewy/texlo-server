@@ -1,9 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { AUTH_TOKEN_STORE, type AuthTokenStore } from '../shared';
+import { AUTH_TOKEN_STORE, type AuthTokenStore, OAuthProvider } from '../shared';
 
 import { OAUTH_CLIENTS, OAuthClient } from './clients';
-import { OAuthProvider } from './domain';
 import { OAuthProfileFetchFailedException, OAuthProviderNotSupportedException, OAuthTokenExchangeFailedException } from './exceptions';
 import { OAUTH_REPOSITORY, OAUTH_UNIT_OF_WORK, type OAuthRepository, type OAuthUnitOfWork } from './repositories';
 import { OAuthLoginInput, OAuthProcessInput } from './usecases';
@@ -57,6 +56,6 @@ export class OAuthService {
       });
     }
 
-    return this.authTokenStore.set(oauth.userId);
+    return this.authTokenStore.set({ oauthId: oauth.id, userId: oauth.userId });
   }
 }

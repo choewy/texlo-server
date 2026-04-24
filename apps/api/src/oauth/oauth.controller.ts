@@ -3,10 +3,13 @@ import { ApiExcludeEndpoint, ApiFoundResponse, ApiOperation, ApiPermanentRedirec
 
 import { type Response } from 'express';
 
-import { OAuthProvider } from './domain';
+import { Public } from '../common';
+import { OAuthProvider } from '../shared';
+
 import { OAuthLoginReqDTO, OAuthProcessReqDTO, OAuthProcessResDTO } from './dtos';
 import { OAuthService } from './oauth.service';
 
+@Public()
 @ApiTags('OAuth2.0')
 @Controller('oauth')
 export class OAuthController {

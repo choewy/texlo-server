@@ -1,4 +1,4 @@
-import { OAuthProvider } from './enums';
+import { OAuthProvider } from '@apps/api/shared';
 
 export class OAuth {
   id!: string;

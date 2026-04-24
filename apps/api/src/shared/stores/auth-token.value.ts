@@ -1,4 +1,4 @@
-export interface JwtClaims {
+export interface AuthTokenValue {
   oauthId: string;
   userId: string;
 }

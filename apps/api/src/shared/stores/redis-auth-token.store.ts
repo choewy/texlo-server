@@ -5,6 +5,7 @@ import { randomUUID } from 'crypto';
 import { REDIS_CLIENT, RedisClient } from '@libs/redis';
 
 import { AuthTokenStore } from './auth-token.store';
+import { AuthTokenValue } from './auth-token.value';
 
 @Injectable()
 export class RedisAuthTokenStore implements AuthTokenStore {
@@ -17,15 +18,15 @@ export class RedisAuthTokenStore implements AuthTokenStore {
     return `auth:${authToken}`;
   }
 
-  async get(authToken: string): Promise<string | null> {
-    return this.redisClient.get(this.key(authToken));
+  async get(authToken: string): Promise<AuthTokenValue | null> {
+    return this.redisClient.getJSON<AuthTokenValue>(this.key(authToken));
   }
 
-  async set(userId: string): Promise<string> {
+  async set(value: AuthTokenValue): Promise<string> {
     const authToken = randomUUID();
     const key = this.key(authToken);
 
-    await this.redisClient.set(key, userId);
+    await this.redisClient.setJSON(key, value);
     await this.redisClient.expire(key, 60 * 10);
 
     return authToken;

@@ -18,14 +18,16 @@ export class AuthService {
   ) {}
 
   async issue(input: IssueTokenInput): Promise<IssueTokenResult> {
-    const id = await this.authTokenStore.get(input.authToken);
+    const value = await this.authTokenStore.get(input.authToken);
 
-    if (!id) {
+    if (!value) {
       throw new InvalidAuthTokenException();
     }
 
-    const accessToken = await this.accessTokenIssuer.issue(id);
-    const refreshToken = await this.refreshTokenIssuer.issue(id, accessToken);
+    const accessToken = await this.accessTokenIssuer.issue(value);
+    const refreshToken = await this.refreshTokenIssuer.issue(value, accessToken);
+
+    await this.authTokenStore.revoke(input.authToken);
 
     return { accessToken, refreshToken };
   }
@@ -41,10 +43,10 @@ export class AuthService {
       throw new InvalidTokenException();
     }
 
-    await this.refreshTokenIssuer.revoke(input.refreshToken);
+    const accessToken = await this.accessTokenIssuer.issue(value);
+    const refreshToken = await this.refreshTokenIssuer.issue(value, accessToken);
 
-    const accessToken = await this.accessTokenIssuer.issue(value.id);
-    const refreshToken = await this.refreshTokenIssuer.issue(value.id, accessToken);
+    await this.refreshTokenIssuer.revoke(input.refreshToken);
 
     return { accessToken, refreshToken };
   }

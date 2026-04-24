@@ -5,7 +5,9 @@ import { stringify } from 'querystring';
 
 import { type GoogleOAuthConfig, googleOAuthConfig } from '@libs/config';
 
-import { OAuthProfile, OAuthProvider } from '../domain';
+import { OAuthProvider } from '@apps/api/shared';
+
+import { OAuthProfile } from '../domain';
 
 import { OAuthClient } from './oauth.client';
 

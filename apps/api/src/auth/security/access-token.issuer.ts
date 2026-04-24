@@ -1,3 +1,5 @@
+import { JwtClaims } from './jwt-claims';
+
 export interface AccessTokenIssuer {
-  issue(id: string): Promise<string>;
+  issue(claims: JwtClaims): Promise<string>;
 }

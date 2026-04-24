@@ -8,7 +8,7 @@ import { JwtClaims } from './jwt-claims';
 export class JwtAccessTokenIssuer implements AccessTokenIssuer {
   constructor(private readonly jwtService: JwtService) {}
 
-  async issue(id: string): Promise<string> {
-    return this.jwtService.signAsync(new JwtClaims(id).toObject(), { expiresIn: 10 * 60 });
+  async issue(claims: JwtClaims): Promise<string> {
+    return this.jwtService.signAsync({ oauthId: claims.oauthId, userId: claims.userId }, { expiresIn: 10 * 60 });
   }
 }

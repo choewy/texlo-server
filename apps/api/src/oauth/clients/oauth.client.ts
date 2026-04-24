@@ -1,4 +1,6 @@
-import { OAuthProfile, OAuthProvider } from '../domain';
+import { OAuthProvider } from '@apps/api/shared';
+
+import { OAuthProfile } from '../domain';
 
 export interface OAuthClient {
   readonly provider: OAuthProvider;

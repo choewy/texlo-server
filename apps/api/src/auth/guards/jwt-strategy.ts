@@ -8,6 +8,9 @@ import { Strategy } from 'passport-jwt';
 import { jwtPassportConfig } from '@libs/config';
 import { COOKIE_SERVICE, type CookieService } from '@libs/http';
 
+import { ContextUser } from '@apps/api/common';
+
+import { InvalidTokenException } from '../exceptions';
 import { JwtClaims } from '../security';
 
 @Injectable()
@@ -24,7 +27,11 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  validate(claims: JwtClaims): JwtClaims {
-    return claims;
+  validate(user: JwtClaims): ContextUser {
+    if (user instanceof Object === false || 'userId' in user === false || typeof user.userId !== 'string' || 'oauthId' in user === false || typeof user.oauthId !== 'string') {
+      throw new InvalidTokenException();
+    }
+
+    return { id: user.userId, oauthId: user.oauthId };
   }
 }

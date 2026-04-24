@@ -29,7 +29,7 @@ export class JwtGuard extends AuthGuard('jwt') {
     return super.canActivate(context);
   }
 
-  override handleRequest<TUser = unknown>(e: unknown, user: TUser, info: unknown) {
+  override handleRequest<TUser = ContextUser>(e: unknown, user: TUser, info: unknown) {
     if (e instanceof TokenExpiredException || e instanceof InvalidTokenException) {
       throw e;
     }
@@ -44,6 +44,6 @@ export class JwtGuard extends AuthGuard('jwt') {
 
     this.contextService.user = user as ContextUser;
 
-    return user ?? null;
+    return user;
   }
 }
