@@ -87,4 +87,4 @@ import { VoiceModule } from './voice/voice.module';
     },
   ],
 })
-export class ApiModule {}
+export class AppModule {}

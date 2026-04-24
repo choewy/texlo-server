@@ -82,4 +82,4 @@ import { VoiceModule } from './voice/voice.module';
     },
   ],
 })
-export class AdminModule {}
+export class AppModule {}

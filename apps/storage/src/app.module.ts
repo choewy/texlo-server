@@ -42,4 +42,4 @@ import { BucketModule } from './bucket';
     },
   ],
 })
-export class StorageModule {}
+export class AppModule {}

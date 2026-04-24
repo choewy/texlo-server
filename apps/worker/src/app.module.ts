@@ -64,4 +64,4 @@ import { VoiceSyncModule } from './voice-sync/voice-sync.module';
     VoiceSyncModule,
   ],
 })
-export class WorkerModule {}
+export class AppModule {}

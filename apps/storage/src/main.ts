@@ -7,11 +7,11 @@ import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 import { HTTP_CONFIG, HttpConfig } from '@libs/config';
 
+import { AppModule } from './app.module';
 import { setupDocument } from './document';
-import { StorageModule } from './storage.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(StorageModule, { bufferLogs: true });
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
   const configService = app.get(ConfigService);
 
   const { port, hostname, cors } = configService.getOrThrow<HttpConfig>(HTTP_CONFIG);
