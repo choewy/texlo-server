@@ -4,7 +4,7 @@
   "monorepo": true,
   "defaultLibraryPrefix": "@libs",
   "compilerOptions": {
-    "deleteOutDir": true,
+    "deleteOutDir": false,
     "webpack": false
   },
   "generateOptions": {
