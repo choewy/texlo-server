@@ -24,6 +24,16 @@ export class StorageClientImpl implements StorageClient {
     });
   }
 
+  private parseId(url: string): string {
+    const id = url.replace(this.options.url, '').trim();
+
+    if (id.startsWith('/')) {
+      return id.slice(1);
+    } else {
+      return id;
+    }
+  }
+
   async uploadFile(file: Express.Multer.File): Promise<StorageFileUploadResult> {
     return this.uploadBuffer(file.buffer, file.originalname);
   }
@@ -43,5 +53,13 @@ export class StorageClientImpl implements StorageClient {
     });
 
     return { id: data.id, url: `${this.options.url}/${data.id}`, filename: data.filename, mimetype: data.mimetype };
+  }
+
+  async remove(url: string): Promise<void> {
+    const id = this.parseId(url);
+
+    if (id) {
+      await this.api.delete<void>(`${this.options.url}/${id}`);
+    }
   }
 }

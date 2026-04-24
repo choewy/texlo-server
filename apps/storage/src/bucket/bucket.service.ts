@@ -61,10 +61,8 @@ export class BucketService {
   async removeFile(id: string): Promise<void> {
     const file = await this.fileModel.findOne({ 'metadata.id': id });
 
-    if (!file) {
-      throw new NotFoundFileException(id);
+    if (file) {
+      await file.deleteOne();
     }
-
-    await file.deleteOne();
   }
 }

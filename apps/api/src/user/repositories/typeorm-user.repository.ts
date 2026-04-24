@@ -24,4 +24,8 @@ export class TypeOrmUserRepository implements UserRepository {
   async findOneByIdOrFail(id: string): Promise<User> {
     return UserMapper.toUser(await this.getRepository().findOneByOrFail({ id }));
   }
+
+  async update(id: string, params: Partial<Pick<User, 'nickname' | 'profileImageUrl'>>): Promise<void> {
+    await this.getRepository().update({ id }, { ...params, updatedAt: () => 'NOW()' });
+  }
 }
