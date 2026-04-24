@@ -1,5 +1,5 @@
-import { User } from '../domain';
+import { OAuthProfile, User } from '../domain';
 
 export interface UserRepository {
-  insert(): Promise<User>;
+  insert(profile: OAuthProfile): Promise<User>;
 }

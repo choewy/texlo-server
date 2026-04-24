@@ -1,4 +1,4 @@
-import { CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { OAuthEntity } from './oauth.entity';
 
@@ -6,6 +6,12 @@ import { OAuthEntity } from './oauth.entity';
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid', { primaryKeyConstraintName: 'USERS_PK' })
   readonly id!: string;
+
+  @Column({ type: 'varchar', length: 50, default: '' })
+  nickname!: string;
+
+  @Column({ type: 'varchar', length: 1024, nullable: true })
+  profileImageUrl!: string | null;
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date;

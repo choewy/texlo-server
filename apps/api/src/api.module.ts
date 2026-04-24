@@ -30,6 +30,7 @@ import { RedisModule } from '@libs/redis';
 import { AuthModule } from './auth/auth.module';
 import { ContextModule } from './common';
 import { OAuthModule } from './oauth/oauth.module';
+import { UserModule } from './user/user.module';
 import { VoiceModule } from './voice/voice.module';
 
 @Module({
@@ -72,6 +73,7 @@ import { VoiceModule } from './voice/voice.module';
     }),
     AuthModule,
     OAuthModule,
+    UserModule,
     VoiceModule,
   ],
   providers: [

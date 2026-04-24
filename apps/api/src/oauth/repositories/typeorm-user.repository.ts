@@ -4,7 +4,7 @@ import { DataSource, EntityManager } from 'typeorm';
 
 import { UserEntity } from '@libs/persistence';
 
-import { User } from '../domain';
+import { OAuthProfile, User } from '../domain';
 import { OAuthMapper } from '../mappers';
 
 import { UserRepository } from './user.repository';
@@ -21,9 +21,12 @@ export class TypeOrmUserRepository implements UserRepository {
     return (this.entityManager ?? this.dataSource).getRepository(UserEntity);
   }
 
-  async insert(): Promise<User> {
+  async insert(profile: OAuthProfile): Promise<User> {
     const repository = this.getRepository();
-    const user = repository.create({});
+    const user = repository.create({
+      nickname: profile.name ?? `U-${Date.now()}`,
+      profileImageUrl: profile.profileImageUrl,
+    });
 
     return OAuthMapper.toUser(await repository.save(user));
   }

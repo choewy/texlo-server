@@ -5,10 +5,13 @@ import { type Request, type Response } from 'express';
 
 import { COOKIE_SERVICE, type CookieService } from '@libs/http';
 
+import { Public } from '../common';
+
 import { AuthService } from './auth.service';
 import { IssueTokenReqDTO } from './dtos';
 import { ClearCookiesOnInvalidTokenInterceptor } from './interceptors';
 
+@Public()
 @ApiTags('인증')
 @Controller('auth')
 @UseInterceptors(ClearCookiesOnInvalidTokenInterceptor)
