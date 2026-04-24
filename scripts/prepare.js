@@ -43,6 +43,12 @@ function husky() {
   spawnSync('pnpx', ['husky']);
 }
 
+function migration() {
+  spawnSync('pnpm', ['migration:build']);
+  spawnSync('pnpm', ['migration:run']);
+}
+
 setEnvRoot();
 setEnvApps();
 husky();
+migration();

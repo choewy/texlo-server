@@ -1,0 +1,9 @@
+node_modules
+dist
+.husky
+.git
+.env*
+
+scripts
+apps
+!apps/storage
