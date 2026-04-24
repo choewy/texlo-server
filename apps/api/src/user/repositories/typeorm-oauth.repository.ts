@@ -21,6 +21,10 @@ export class TypeOrmOAuthRepository implements OAuthRepository {
     return (this.em ?? this.dataSource).getRepository(OAuthEntity);
   }
 
+  async findOneByIdOrFail(id: string): Promise<OAuth> {
+    return UserMapper.toOAuth(await this.getRepository().findOneByOrFail({ id }));
+  }
+
   async findByUserId(userId: string): Promise<OAuth[]> {
     const oauths = await this.getRepository().findBy({ userId });
 

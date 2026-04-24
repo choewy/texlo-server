@@ -1,1 +1,1 @@
-export * from './profile.result';
+export * from './get-profile.result';
