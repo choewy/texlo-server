@@ -9,7 +9,7 @@ export class TypeOrmTransaction<TContext> {
     private readonly createContext: TypeOrmTransactionContextFactory<TContext>,
   ) {}
 
-  transaction<T>(run: (context: TContext) => Promise<T>): Promise<T> {
+  tx<T>(run: (context: TContext) => Promise<T>): Promise<T> {
     return this.dataSource.transaction((entityManager) => run(this.createContext(entityManager)));
   }
 

@@ -1,6 +1,8 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+import { Serializer } from '@libs/http';
+
 import { CONTEXT_SERVICE, type ContextService } from '../common';
 
 import { GetVoicesReqDTO, GetVoicesResDTO } from './dtos';
@@ -16,6 +18,7 @@ export class VoiceController {
   ) {}
 
   @Get()
+  @Serializer(GetVoicesResDTO)
   @ApiOperation({ summary: '목소리 목록 조회' })
   @ApiOkResponse({ type: GetVoicesResDTO })
   getVoices(@Query() query: GetVoicesReqDTO) {

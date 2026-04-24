@@ -17,10 +17,11 @@ export class VoiceResDTO {
   @Expose()
   name!: string;
 
-  @ApiProperty({ type: String, nullable: true })
+  @ApiProperty({ type: String, format: 'uri', nullable: true })
   @Expose()
   imageUrl!: string | null;
 
+  @ApiProperty({ type: String, format: 'uri', nullable: true })
   @Expose()
   soundUrl!: string | null;
 

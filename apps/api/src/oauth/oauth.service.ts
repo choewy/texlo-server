@@ -52,7 +52,6 @@ export class OAuthService {
     } else {
       oauth = await this.oauthUnitOfWork.tx(async (repo) => {
         const user = await repo.user.insert(profile);
-
         return repo.oauth.insert(profile, user);
       });
     }
