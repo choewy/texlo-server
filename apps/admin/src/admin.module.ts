@@ -27,9 +27,12 @@ import { StorageModule } from '@libs/integrations';
 import { RedisModule } from '@libs/redis';
 
 import { AuthModule } from './auth/auth.module';
+import { ContextModule } from './common';
+import { VoiceModule } from './voice/voice.module';
 
 @Module({
   imports: [
+    ContextModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['apps/admin/.env', '.env'],
@@ -66,6 +69,7 @@ import { AuthModule } from './auth/auth.module';
       },
     }),
     AuthModule,
+    VoiceModule,
   ],
   providers: [
     {

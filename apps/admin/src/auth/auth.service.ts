@@ -4,7 +4,7 @@ import { AdminNotApprovedException, EmailAlreadyExistsException, InvalidCredenti
 import { ADMIN_REPOSITORY, type AdminRepository } from './repositories';
 import { ACCESS_TOKEN_ISSUER, type AccessTokenIssuer, PASSWORD_HASHER, type PasswordHasher, REFRESH_TOKEN_ISSUER, type RefreshTokenIssuer } from './security';
 import { AdminStatus } from './shared';
-import { LoginInput, LoginResult, RegisterInput, RegisterResult } from './usecases';
+import { LoginInput, LoginResult, LogoutInput, RegisterInput, RegisterResult } from './usecases';
 
 @Injectable()
 export class AuthService {
@@ -59,5 +59,19 @@ export class AuthService {
     const refreshToken = await this.refreshTokenIssuer.issue({ id: admin.id }, accessToken);
 
     return { accessToken, refreshToken };
+  }
+
+  async logout(input: LogoutInput): Promise<void> {
+    const value = await this.refreshTokenIssuer.get(input.refreshToken);
+
+    if (!value) {
+      return;
+    }
+
+    if (value.accessToken !== input.accessToken) {
+      return;
+    }
+
+    await this.refreshTokenIssuer.revoke(input.refreshToken);
   }
 }

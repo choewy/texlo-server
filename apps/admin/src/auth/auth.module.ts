@@ -7,6 +7,8 @@ import { CookieModule } from '@libs/http';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { JwtGuard, JwtStrategy } from './guards';
+import { ClearCookiesOnInvalidTokenInterceptor } from './interceptors';
 import { ADMIN_REPOSITORY, TypeOrmAdminRepository } from './repositories';
 import { ACCESS_TOKEN_ISSUER, BcryptPasswordHasher, JwtAccessTokenIssuer, JwtRefreshTokenIssuer, PASSWORD_HASHER, REFRESH_TOKEN_ISSUER } from './security';
 
@@ -28,6 +30,9 @@ import { ACCESS_TOKEN_ISSUER, BcryptPasswordHasher, JwtAccessTokenIssuer, JwtRef
   controllers: [AuthController],
   providers: [
     AuthService,
+    ClearCookiesOnInvalidTokenInterceptor,
+    JwtGuard,
+    JwtStrategy,
     {
       provide: ADMIN_REPOSITORY,
       useClass: TypeOrmAdminRepository,
