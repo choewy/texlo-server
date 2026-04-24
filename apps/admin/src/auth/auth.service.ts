@@ -2,10 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import { AdminStatus } from '../shared';
 
-import { AdminNotApprovedException, EmailAlreadyExistsException, InvalidCredentialsException } from './exceptions';
+import { AdminNotApprovedException, EmailAlreadyExistsException, InvalidCredentialsException, InvalidTokenException } from './exceptions';
 import { ADMIN_REPOSITORY, type AdminRepository } from './repositories';
 import { ACCESS_TOKEN_ISSUER, type AccessTokenIssuer, PASSWORD_HASHER, type PasswordHasher, REFRESH_TOKEN_ISSUER, type RefreshTokenIssuer } from './security';
-import { LoginInput, LoginResult, LogoutInput, RegisterInput, RegisterResult } from './usecases';
+import { LoginInput, LoginResult, LogoutInput, RefreshTokenInput, RefreshTokenResult, RegisterInput, RegisterResult } from './usecases';
 
 @Injectable()
 export class AuthService {
@@ -58,6 +58,25 @@ export class AuthService {
 
     const accessToken = await this.accessTokenIssuer.issue({ id: admin.id });
     const refreshToken = await this.refreshTokenIssuer.issue({ id: admin.id }, accessToken);
+
+    return { accessToken, refreshToken };
+  }
+
+  async refresh(input: RefreshTokenInput): Promise<RefreshTokenResult> {
+    const value = await this.refreshTokenIssuer.get(input.refreshToken);
+
+    if (!value) {
+      throw new InvalidTokenException();
+    }
+
+    if (value.accessToken !== input.accessToken) {
+      throw new InvalidTokenException();
+    }
+
+    const accessToken = await this.accessTokenIssuer.issue(value);
+    const refreshToken = await this.refreshTokenIssuer.issue(value, accessToken);
+
+    await this.refreshTokenIssuer.revoke(input.refreshToken);
 
     return { accessToken, refreshToken };
   }

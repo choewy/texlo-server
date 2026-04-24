@@ -45,6 +45,20 @@ export class AuthController {
     this.cookieService.set(res, CookieKey.RefreshToken, refreshToken, 20);
   }
 
+  @Post('refresh')
+  @ApiOperation({ summary: '토큰 갱신' })
+  @ApiCreatedResponse()
+  async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    const { accessToken, refreshToken } = await this.authService.refresh({
+      accessToken: this.cookieService.parse(req, CookieKey.AccessToken),
+      refreshToken: this.cookieService.parse(req, CookieKey.RefreshToken),
+    });
+
+    this.cookieService.setCacheControl(res);
+    this.cookieService.set(res, CookieKey.AccessToken, accessToken, 20);
+    this.cookieService.set(res, CookieKey.RefreshToken, refreshToken, 20);
+  }
+
   @Delete('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: '로그아웃' })
