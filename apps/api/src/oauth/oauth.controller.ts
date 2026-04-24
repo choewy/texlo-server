@@ -35,10 +35,7 @@ export class OAuthController {
     const redirectUrl = await this.oauthService
       .process(provider, query)
       .then((authToken) => `${query.state}?authToken=${authToken}`)
-      .catch((e: Error) => {
-        console.log(e);
-        return `${query.state}?error=${e.message}`;
-      });
+      .catch((e: Error) => `${query.state}?error=${e.message}`);
 
     res.redirect(HttpStatus.MOVED_PERMANENTLY, redirectUrl);
   }
