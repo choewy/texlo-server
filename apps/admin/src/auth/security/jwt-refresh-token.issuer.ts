@@ -15,14 +15,14 @@ export class JwtRefreshTokenIssuer implements RefreshTokenIssuer {
   ) {}
 
   private key(refreshToken: string) {
-    return `api:jwt:${refreshToken}`;
+    return `admin:jwt:${refreshToken}`;
   }
 
   async issue(claims: JwtClaims, accessToken: string): Promise<string> {
     const refreshToken = randomUUID();
     const key = this.key(refreshToken);
 
-    await this.redisClient.setJSON(key, { oauthId: claims.oauthId, userId: claims.userId, accessToken });
+    await this.redisClient.setJSON(key, { id: claims.id, accessToken });
     await this.redisClient.expire(key, 60 * 60 * 24 * 20);
 
     return refreshToken;

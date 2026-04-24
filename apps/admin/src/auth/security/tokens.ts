@@ -1,0 +1,3 @@
+export const PASSWORD_HASHER = Symbol('PASSWORD_HASHER');
+export const ACCESS_TOKEN_ISSUER = Symbol('ACCESS_TOKEN_ISSUER');
+export const REFRESH_TOKEN_ISSUER = Symbol('REFRESH_TOKEN_ISSUER');

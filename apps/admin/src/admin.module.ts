@@ -26,6 +26,8 @@ import { GlobalHttpExceptionFilter, GlobalValidationPipe } from '@libs/http';
 import { StorageModule } from '@libs/integrations';
 import { RedisModule } from '@libs/redis';
 
+import { AuthModule } from './auth/auth.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -63,6 +65,7 @@ import { RedisModule } from '@libs/redis';
         return configService.getOrThrow(STORAGE_CLIENT_CONFIG);
       },
     }),
+    AuthModule,
   ],
   providers: [
     {

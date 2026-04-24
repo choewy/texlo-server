@@ -1,3 +1,4 @@
+export * from './admin.entity';
 export * from './user.entity';
 export * from './oauth.entity';
 export * from './voice.entity';

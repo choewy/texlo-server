@@ -15,7 +15,7 @@ export class RedisAuthTokenStore implements AuthTokenStore {
   ) {}
 
   private key(authToken: string) {
-    return `auth:${authToken}`;
+    return `api:auth:${authToken}`;
   }
 
   async get(authToken: string): Promise<AuthTokenValue | null> {
