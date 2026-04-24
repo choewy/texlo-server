@@ -10,6 +10,7 @@ import { FileDescriptor } from '@libs/utils';
 
 import { BucketFile } from './domain';
 import { NotFoundFileException, UploadFailedFileException } from './exceptions';
+import { BucketMapper } from './mappers';
 
 @Injectable()
 export class BucketService {
@@ -54,7 +55,7 @@ export class BucketService {
       throw new UploadFailedFileException();
     }
 
-    return new BucketFile(file);
+    return BucketMapper.toFile(file);
   }
 
   async removeFile(id: string): Promise<void> {
