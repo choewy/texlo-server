@@ -1,4 +1,4 @@
-import { AdminStatus } from '../shared';
+import { AdminStatus } from '../../shared';
 
 export class Admin {
   id!: string;

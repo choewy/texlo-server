@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 
 import { COOKIE_CONFIG, JWT_CONFIG } from '@libs/config';
@@ -31,7 +32,6 @@ import { ACCESS_TOKEN_ISSUER, BcryptPasswordHasher, JwtAccessTokenIssuer, JwtRef
   providers: [
     AuthService,
     ClearCookiesOnInvalidTokenInterceptor,
-    JwtGuard,
     JwtStrategy,
     {
       provide: ADMIN_REPOSITORY,
@@ -48,6 +48,10 @@ import { ACCESS_TOKEN_ISSUER, BcryptPasswordHasher, JwtAccessTokenIssuer, JwtRef
     {
       provide: PASSWORD_HASHER,
       useClass: BcryptPasswordHasher,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: JwtGuard,
     },
   ],
 })

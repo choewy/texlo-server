@@ -1,9 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 
+import { AdminStatus } from '../shared';
+
 import { AdminNotApprovedException, EmailAlreadyExistsException, InvalidCredentialsException } from './exceptions';
 import { ADMIN_REPOSITORY, type AdminRepository } from './repositories';
 import { ACCESS_TOKEN_ISSUER, type AccessTokenIssuer, PASSWORD_HASHER, type PasswordHasher, REFRESH_TOKEN_ISSUER, type RefreshTokenIssuer } from './security';
-import { AdminStatus } from './shared';
 import { LoginInput, LoginResult, LogoutInput, RegisterInput, RegisterResult } from './usecases';
 
 @Injectable()

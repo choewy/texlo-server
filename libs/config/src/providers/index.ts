@@ -7,3 +7,4 @@ export * from './mongoose.config';
 export * from './winston.config';
 export * from './storage.config';
 export * from './google.config';
+export * from './typecast.config';

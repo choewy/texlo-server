@@ -12,6 +12,7 @@ import {
   redisConfig,
   STORAGE_CLIENT_CONFIG,
   storageClientConfig,
+  typecastConfig,
   TYPEORM_CONFIG,
   typeormConfig,
   WINSTON_CONFIG,
@@ -20,12 +21,14 @@ import {
 import { StorageModule } from '@libs/integrations';
 import { RedisModule } from '@libs/redis';
 
+import { VoiceSyncModule } from './voice-sync/voice-sync.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['apps/api/.env', '.env'],
-      load: [winstonConfig, typeormConfig, redisConfig, bullMqConfig, storageClientConfig],
+      envFilePath: ['apps/worker/.env', '.env'],
+      load: [winstonConfig, typeormConfig, redisConfig, bullMqConfig, storageClientConfig, typecastConfig],
     }),
     WinstonModule.forRootAsync({
       inject: [ConfigService],
@@ -58,6 +61,7 @@ import { RedisModule } from '@libs/redis';
         return configService.getOrThrow(STORAGE_CLIENT_CONFIG);
       },
     }),
+    VoiceSyncModule,
   ],
 })
 export class WorkerModule {}

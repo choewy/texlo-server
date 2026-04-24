@@ -1,13 +1,3 @@
-export enum AdminStatus {
-  Pending = 'pending',
-  Approved = 'approved',
-  Rejected = 'rejected',
-}
-
-export enum OAuthProvider {
-  Google = 'google',
-}
-
 export enum VoiceProvider {
   Typecast = 'typecast',
   Supertone = 'supertone',
@@ -56,4 +46,11 @@ export enum VoiceLanguage {
 export enum VoiceStatus {
   Activated = 'activated',
   Deactivated = 'deactivated',
+}
+
+export enum VoiceSyncLockStatus {
+  Pending = 'pending',
+  InProgress = 'in-progress',
+  Failed = 'failed',
+  Completed = 'completed',
 }
