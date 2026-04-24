@@ -8,8 +8,8 @@ export function setupDocument(app: INestApplication) {
     SwaggerModule.createDocument(
       app,
       new DocumentBuilder()
-        .setTitle(process.env.npm_package_name ?? '')
-        .setVersion(process.env.npm_package_version ?? '')
+        .setTitle('Texlo Admin API')
+        .setVersion('v0.0.1')
         .addBearerAuth({ type: 'http', in: 'header' }, 'authorization')
         .addSecurityRequirements('authorization')
         .build(),

@@ -5,6 +5,7 @@
   "moduleFileExtensions": ["ts", "js", "json"],
   "modulePaths": ["<rootDir>"],
   "moduleNameMapper": {
+    "^@apps/admin/(.*)$": "<rootDir>/apps/admin/src/$1",
     "^@apps/api/(.*)$": "<rootDir>/apps/api/src/$1",
     "^@apps/storage/(.*)$": "<rootDir>/apps/storage/src/$1",
     "^@apps/worker/(.*)$": "<rootDir>/apps/worker/src/$1",

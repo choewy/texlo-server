@@ -3,8 +3,8 @@ import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from '@nestjs/sw
 
 export function setupDocument(app: INestApplication) {
   const config = new DocumentBuilder()
-    .setTitle(process.env.npm_package_name ?? '')
-    .setVersion(process.env.npm_package_version ?? '')
+    .setTitle('Texlo Storage API')
+    .setVersion('v0.0.1')
     .addSecurity('x-texlo-storage-key', {
       name: 'x-texlo-storage-key',
       type: 'apiKey',

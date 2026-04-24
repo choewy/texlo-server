@@ -11,6 +11,15 @@
     "spec": false
   },
   "projects": {
+    "admin": {
+      "type": "application",
+      "root": "apps/admin",
+      "entryFile": "main",
+      "sourceRoot": "apps/admin/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/admin/tsconfig.app.json"
+      }
+    },
     "api": {
       "type": "application",
       "root": "apps/api",
