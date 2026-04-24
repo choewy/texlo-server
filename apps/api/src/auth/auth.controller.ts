@@ -57,6 +57,7 @@ export class AuthController {
       refreshToken: this.cookieService.parse(req, CookieKey.RefreshToken),
     });
 
+    this.cookieService.setCacheControl(res);
     this.cookieService.clear(res, CookieKey.AccessToken);
     this.cookieService.clear(res, CookieKey.RefreshToken);
   }
