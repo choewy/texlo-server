@@ -1,9 +1,7 @@
-import { InjectQueue } from '@nestjs/bullmq';
 import { Inject, Injectable } from '@nestjs/common';
 
-import { Queue } from 'bullmq';
-
 import { ActiveVoiceSyncAlreadyExistsException } from './exceptions';
+import { VOICE_SYNC_QUEUE_PRODUCER, type VoiceSyncQueueProducer } from './producer';
 import { VOICE_SYNC_LOCK_REPOSITORY, type VoiceSyncLockRepository } from './repositories';
 import { SyncVoicesInput, SyncVoicesResult } from './usecases';
 
@@ -12,8 +10,8 @@ export class VoiceService {
   constructor(
     @Inject(VOICE_SYNC_LOCK_REPOSITORY)
     private readonly voiceSyncLockRepository: VoiceSyncLockRepository,
-    @InjectQueue('voice-sync')
-    private readonly voiceSyncQueue: Queue,
+    @Inject(VOICE_SYNC_QUEUE_PRODUCER)
+    private readonly voiceSyncQueueProducer: VoiceSyncQueueProducer,
   ) {}
 
   async syncVoices(input: SyncVoicesInput): Promise<SyncVoicesResult> {
@@ -26,17 +24,7 @@ export class VoiceService {
     const { id } = await this.voiceSyncLockRepository.insert({ adminId: input.adminId, provider: input.provider });
 
     try {
-      await this.voiceSyncQueue.add(
-        input.provider,
-        { id },
-        {
-          jobId: id,
-          attempts: 3,
-          backoff: { type: 'exponential', delay: 1_000 },
-          removeOnFail: { age: 60 * 60 * 24 * 7, count: 1_000 },
-          removeOnComplete: true,
-        },
-      );
+      await this.voiceSyncQueueProducer.add(input.provider, id);
     } catch (e) {
       await this.voiceSyncLockRepository.deleteById(id);
       throw e;
