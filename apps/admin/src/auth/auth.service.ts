@@ -5,7 +5,7 @@ import { AdminStatus } from '../shared';
 import { AdminNotApprovedException, EmailAlreadyExistsException, InvalidCredentialsException, InvalidTokenException } from './exceptions';
 import { ADMIN_REPOSITORY, type AdminRepository } from './repositories';
 import { ACCESS_TOKEN_ISSUER, type AccessTokenIssuer, PASSWORD_HASHER, type PasswordHasher, REFRESH_TOKEN_ISSUER, type RefreshTokenIssuer } from './security';
-import { LoginInput, LoginResult, LogoutInput, RefreshTokenInput, RefreshTokenResult, RegisterInput, RegisterResult } from './usecases';
+import { LoginInput, LoginResult, LogoutInput, RefreshTokenInput, RefreshTokenResult, RegisterInput } from './usecases';
 
 @Injectable()
 export class AuthService {
@@ -43,23 +43,20 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  async register(input: RegisterInput): Promise<RegisterResult> {
+  async register(input: RegisterInput): Promise<never> {
     const has = await this.adminRepository.hasByEmail(input.email);
 
     if (has) {
       throw new EmailAlreadyExistsException();
     }
 
-    const admin = await this.adminRepository.insert({
+    await this.adminRepository.insert({
       email: input.email,
       name: input.name,
       password: await this.passwordHasher.hash(input.password),
     });
 
-    const accessToken = await this.accessTokenIssuer.issue({ id: admin.id });
-    const refreshToken = await this.refreshTokenIssuer.issue({ id: admin.id }, accessToken);
-
-    return { accessToken, refreshToken };
+    throw new AdminNotApprovedException();
   }
 
   async refresh(input: RefreshTokenInput): Promise<RefreshTokenResult> {

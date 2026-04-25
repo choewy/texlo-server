@@ -37,12 +37,8 @@ export class AuthController {
   @UsePipes(new FieldMatchPipe<RegisterReqDTO>('password', 'confirmPassword'))
   @ApiOperation({ summary: '회원가입' })
   @ApiCreatedResponse()
-  async register(@Body() body: RegisterReqDTO, @Res({ passthrough: true }) res: Response) {
-    const { accessToken, refreshToken } = await this.authService.register(body);
-
-    this.cookieService.setCacheControl(res);
-    this.cookieService.set(res, CookieKey.AccessToken, accessToken, 20);
-    this.cookieService.set(res, CookieKey.RefreshToken, refreshToken, 20);
+  async register(@Body() body: RegisterReqDTO) {
+    return this.authService.register(body);
   }
 
   @Post('refresh')
