@@ -3,16 +3,22 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ActiveVoiceSyncAlreadyExistsException } from './exceptions';
 import { VOICE_SYNC_QUEUE_PRODUCER, type VoiceSyncQueueProducer } from './producer';
 import { VOICE_SYNC_LOCK_REPOSITORY, type VoiceSyncLockRepository } from './repositories';
-import { SyncVoicesInput, SyncVoicesResult } from './usecases';
+import { GetVoiceSyncLocksInput, GetVoiceSyncLocksResult, SyncVoicesInput, SyncVoicesResult } from './usecases';
 
 @Injectable()
-export class VoiceService {
+export class VoiceSyncService {
   constructor(
     @Inject(VOICE_SYNC_LOCK_REPOSITORY)
     private readonly voiceSyncLockRepository: VoiceSyncLockRepository,
     @Inject(VOICE_SYNC_QUEUE_PRODUCER)
     private readonly voiceSyncQueueProducer: VoiceSyncQueueProducer,
   ) {}
+
+  async getVoiceSyncLocks(input: GetVoiceSyncLocksInput): Promise<GetVoiceSyncLocksResult> {
+    const [rows, total] = await this.voiceSyncLockRepository.find(input);
+
+    return { rows, total };
+  }
 
   async syncVoices(input: SyncVoicesInput): Promise<SyncVoicesResult> {
     const has = await this.voiceSyncLockRepository.hasActivated(input.provider);
