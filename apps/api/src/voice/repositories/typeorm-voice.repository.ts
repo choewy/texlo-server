@@ -28,6 +28,10 @@ export class TypeOrmVoiceRepository implements VoiceRepository {
       .orderBy('voice.createdAt', 'ASC')
       .addOrderBy('voice.id', 'ASC');
 
+    if (params.provider) {
+      qb.andWhere('voice.provider = :provider', { provider: params.provider });
+    }
+
     if (params.age) {
       qb.andWhere('voice.age = :age', { age: params.age });
     }

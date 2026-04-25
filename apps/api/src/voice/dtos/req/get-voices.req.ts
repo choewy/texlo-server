@@ -2,9 +2,14 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 
 import { IsEnum, IsOptional, Max, Min } from 'class-validator';
 
-import { VoiceAge, VoiceGender, VoiceLanguage } from '@apps/api/shared';
+import { VoiceAge, VoiceGender, VoiceLanguage, VoiceProvider } from '@apps/api/shared';
 
 export class GetVoicesReqDTO {
+  @ApiPropertyOptional({ enum: VoiceProvider })
+  @IsEnum(VoiceProvider)
+  @IsOptional()
+  readonly provider?: VoiceProvider;
+
   @ApiPropertyOptional({ enum: VoiceAge })
   @IsEnum(VoiceAge)
   @IsOptional()

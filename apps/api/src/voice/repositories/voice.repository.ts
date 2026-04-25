@@ -1,8 +1,9 @@
-import { VoiceAge, VoiceGender, VoiceLanguage } from '@apps/api/shared';
+import { VoiceAge, VoiceGender, VoiceLanguage, VoiceProvider } from '@apps/api/shared';
 
 import { Voice } from '../domain';
 
 export type GetVoiceParams = {
+  provider?: VoiceProvider;
   age?: VoiceAge;
   gender?: VoiceGender;
   language?: VoiceLanguage;
