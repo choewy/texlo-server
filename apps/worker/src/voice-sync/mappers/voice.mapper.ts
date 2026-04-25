@@ -8,6 +8,7 @@ export class VoiceMapper {
 
     voice.imageUrl = entity.imageUrl;
     voice.soundUrl = entity.soundUrl;
+    voice.enableSync = entity.enableSync;
 
     return voice;
   }

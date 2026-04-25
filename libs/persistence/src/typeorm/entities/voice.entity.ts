@@ -50,6 +50,9 @@ export class VoiceEntity {
   @Column({ type: 'enum', enum: VoiceStatus, default: VoiceStatus.Activated })
   status!: VoiceStatus;
 
+  @Column({ type: 'boolean', default: true })
+  enableSync!: boolean;
+
   @OneToMany(() => FavoriteVoiceEntity, (e) => e.voice, { cascade: true })
   favorites!: FavoriteVoiceEntity[];
 

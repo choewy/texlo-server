@@ -40,6 +40,10 @@ export class SupertoneVoiceSyncProcessor extends WorkerHost {
     for (const target of targets) {
       const voice = await this.voiceRepository.findUrls(target.provider, target.code);
 
+      if (voice?.enableSync === false) {
+        continue;
+      }
+
       if (voice) {
         const imageUrl = voice.imageUrl ?? '';
         const soundUrl = voice.soundUrl ?? '';

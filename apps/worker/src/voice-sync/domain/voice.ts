@@ -15,6 +15,7 @@ export class Voice {
   styles!: string[];
   usecases!: string[];
   status?: VoiceStatus;
+  enableSync!: boolean;
 
   static fromTypecast(raw: TypecastVoiceItem) {
     const voice = new Voice();

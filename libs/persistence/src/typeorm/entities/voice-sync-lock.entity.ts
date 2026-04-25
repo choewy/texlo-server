@@ -18,9 +18,6 @@ export class VoiceSyncLockEntity {
   @Column({ type: 'jsonb', nullable: true })
   error!: object | null;
 
-  @Column({ type: 'boolean', default: true })
-  enableSync!: boolean;
-
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date;
 
