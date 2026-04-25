@@ -20,7 +20,7 @@ export class TypeOrmVoiceSyncLockRepository implements VoiceSyncLockRepository {
     this.repository = (this.em ?? this.dataSource).getRepository(VoiceSyncLockEntity);
   }
 
-  async update(id: string, status: VoiceSyncLockStatus): Promise<void> {
-    await this.repository.update(id, { status, updatedAt: () => 'NOW()' });
+  async update(id: string, status: VoiceSyncLockStatus, error?: object): Promise<void> {
+    await this.repository.update(id, { status, error, updatedAt: () => 'NOW()' });
   }
 }

@@ -21,6 +21,7 @@ export type TypecastVoiceItem = {
     ko: string;
     en: string;
   };
+  hidden: boolean;
   version: string;
   language: string;
   price: string;

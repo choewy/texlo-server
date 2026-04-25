@@ -2,24 +2,33 @@ import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { TYPECAST_CONFIG } from '@libs/config';
-import { TypecastModule } from '@libs/integrations';
+import { SUPERTONE_CONFIG, TYPECAST_CONFIG } from '@libs/config';
+import { SupertoneModule, TypecastModule } from '@libs/integrations';
 
 import { TypeOrmVoiceRepository, TypeOrmVoiceSyncLockRepository, VOICE_REPOSITORY, VOICE_SYNC_LOCK_REPOSITORY } from './repositories';
-import { VoiceSyncProcessor } from './voice-sync.processor';
+import { SupertoneVoiceSyncProcessor } from './supertone-voice-sync.processor';
+import { TypecastVoiceSyncProcessor } from './typecast-voice-sync.processor';
 
 @Module({
   imports: [
-    BullModule.registerQueue({ name: 'voice-sync' }),
+    BullModule.registerQueue({ name: 'voice-sync.typecast' }),
+    BullModule.registerQueue({ name: 'voice-sync.supertone' }),
     TypecastModule.registerAsync({
       inject: [ConfigService],
       useFactory(configService: ConfigService) {
         return configService.getOrThrow(TYPECAST_CONFIG);
       },
     }),
+    SupertoneModule.registerAsync({
+      inject: [ConfigService],
+      useFactory(configService: ConfigService) {
+        return configService.getOrThrow(SUPERTONE_CONFIG);
+      },
+    }),
   ],
   providers: [
-    VoiceSyncProcessor,
+    TypecastVoiceSyncProcessor,
+    SupertoneVoiceSyncProcessor,
     {
       provide: VOICE_SYNC_LOCK_REPOSITORY,
       useClass: TypeOrmVoiceSyncLockRepository,

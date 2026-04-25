@@ -1,34 +1,60 @@
-import { TypecastVoiceItem } from '@libs/integrations';
+import { SupertoneVoiceItem, TypecastVoiceItem } from '@libs/integrations';
 
-import { VoiceAge, VoiceGender, VoiceLanguage, VoiceProvider } from './enums';
+import { VoiceAge, VoiceGender, VoiceLanguage, VoiceProvider, VoiceStatus } from './enums';
 
 export class Voice {
   provider!: VoiceProvider;
   code!: string;
   name!: string;
-  imageUrl!: string;
-  soundUrl!: string;
+  imageUrl!: string | null;
+  soundUrl!: string | null;
   gender!: VoiceGender | null;
   age!: VoiceAge | null;
   languages!: VoiceLanguage[];
   models!: string[];
   styles!: string[];
   usecases!: string[];
+  status?: VoiceStatus;
 
-  static fromTypecast(typecast: TypecastVoiceItem) {
+  static fromTypecast(raw: TypecastVoiceItem) {
     const voice = new Voice();
+    const language = this.formatLanguage(raw.language);
 
     voice.provider = VoiceProvider.Typecast;
-    voice.code = typecast.actor_id;
-    voice.name = typecast.name.ko;
-    voice.imageUrl = typecast.img_url;
-    voice.soundUrl = typecast.audio_url;
-    voice.gender = this.formatGender(typecast.sex.shift());
-    voice.age = this.formatAge(typecast.age);
-    voice.languages = [];
-    voice.models = [];
-    voice.styles = ([] as string[]).concat([typecast.tag_v2?.tone]).concat((typecast.tag_v2?.mood ?? []).flatMap((mood) => [mood.title].concat(mood.detail)));
-    voice.usecases = ([] as string[]).concat(typecast.tag_v2?.content ?? []).concat(typecast.tag_v2?.category ?? []);
+    voice.code = raw.actor_id;
+    voice.name = raw.name.ko;
+    voice.imageUrl = raw.img_url;
+    voice.soundUrl = raw.audio_url;
+    voice.gender = this.formatGender(raw.sex.shift());
+    voice.age = this.formatAge(raw.age);
+    voice.languages = language ? [language] : [];
+    voice.models = raw.style_label_v2.map((label) => label.display_name).sort((a, b) => a.localeCompare(b));
+    voice.styles = ([] as string[]).concat([raw.tag_v2?.tone]).concat((raw.tag_v2?.mood ?? []).flatMap((mood) => [mood.title].concat(mood.detail)));
+    voice.usecases = ([] as string[]).concat(raw.tag_v2?.content ?? []).concat(raw.tag_v2?.category ?? []);
+    voice.status = raw.hidden ? VoiceStatus.Deactivated : undefined;
+
+    return voice;
+  }
+
+  static fromSupertone(raw: SupertoneVoiceItem): Voice {
+    const voice = new Voice();
+
+    voice.provider = VoiceProvider.Supertone;
+    voice.code = raw.voice_id;
+    voice.name = raw.name;
+    voice.imageUrl = raw.thumbnail_image_url;
+    voice.soundUrl =
+      raw.samples
+        .filter((sample) => sample.language === 'ko')
+        .map((sample) => sample.url)
+        .sort()
+        .pop() ?? null;
+    voice.gender = this.formatGender(raw.gender);
+    voice.age = this.formatAge(raw.age);
+    voice.languages = raw.language.map((language) => this.formatLanguage(language)).filter((language) => language !== null);
+    voice.models = raw.models ?? [];
+    voice.styles = raw.styles ?? [];
+    voice.usecases = raw.use_cases ?? [];
 
     return voice;
   }
@@ -78,5 +104,26 @@ export class Voice {
       default:
         return null;
     }
+  }
+
+  private static formatLanguage(language?: string | null) {
+    if (!language) {
+      return null;
+    }
+
+    const values = Object.values(VoiceLanguage);
+    const languageIdx = values.indexOf(language as VoiceLanguage);
+
+    if (languageIdx >= 0) {
+      return language as VoiceLanguage;
+    }
+
+    const matchIdx = values.findIndex((value) => value.startsWith(language));
+
+    if (matchIdx >= 0) {
+      return values[matchIdx];
+    }
+
+    return null;
   }
 }

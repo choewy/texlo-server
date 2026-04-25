@@ -4,7 +4,8 @@ import { DataSource, EntityManager, Repository } from 'typeorm';
 
 import { VoiceEntity } from '@libs/persistence';
 
-import { Voice } from '../domain';
+import { Voice, VoiceProvider } from '../domain';
+import { VoiceMapper } from '../mappers';
 
 import { VoiceRepository } from './voice.repository';
 
@@ -20,16 +21,18 @@ export class TypeOrmVoiceRepository implements VoiceRepository {
     this.repository = (this.em ?? this.dataSource).getRepository(VoiceEntity);
   }
 
-  async upserts(voices: Voice[]): Promise<void> {
-    if (voices.length === 0) {
-      return;
-    }
+  async findUrls(provider: VoiceProvider, code: string): Promise<Voice | null> {
+    const voice = await this.repository.findOneBy({ provider, code });
 
+    return voice ? VoiceMapper.toVoiceUrls(voice) : null;
+  }
+
+  async upsert(voice: Voice): Promise<void> {
     await this.repository
       .createQueryBuilder()
       .insert()
-      .into(VoiceEntity)
-      .values(voices)
+      .into('voices')
+      .values(voice)
       .orUpdate(['name', 'image_url', 'sound_url', 'gender', 'age', 'languages', 'models', 'styles', 'usecases'], ['provider', 'code'], {
         skipUpdateIfNoValuesChanged: true,
       })

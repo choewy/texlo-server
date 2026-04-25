@@ -23,7 +23,7 @@ export class SupertoneClientImpl implements SupertoneClient {
     });
   }
 
-  async getVoices(nextPageToken?: string): Promise<SupertoneVoicesResponse> {
+  private async getVoicesWithPagination(nextPageToken?: string): Promise<SupertoneVoicesResponse> {
     const { data } = await this.api.get<SupertoneVoicesResponse>('https://supertoneapi.com/v1/voices', {
       params: {
         page_size: 100,
@@ -34,12 +34,12 @@ export class SupertoneClientImpl implements SupertoneClient {
     return data;
   }
 
-  async getAllVoices(): Promise<SupertoneVoiceItem[]> {
+  async getVoices(): Promise<SupertoneVoiceItem[]> {
     let voices: SupertoneVoiceItem[] = [];
     let nextPageToken: string | undefined = undefined;
 
     do {
-      const response = await this.getVoices(nextPageToken);
+      const response = await this.getVoicesWithPagination(nextPageToken);
 
       voices = voices.concat(response.items.map((item) => ({ ...item, samples: item.samples.filter((sample) => sample.language === 'ko') })));
       nextPageToken = response.next_page_token;

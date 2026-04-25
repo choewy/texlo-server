@@ -12,6 +12,7 @@ import {
   redisConfig,
   STORAGE_CLIENT_CONFIG,
   storageClientConfig,
+  supertoneConfig,
   typecastConfig,
   TYPEORM_CONFIG,
   typeormConfig,
@@ -28,7 +29,7 @@ import { VoiceSyncModule } from './voice-sync/voice-sync.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['apps/worker/.env', '.env'],
-      load: [winstonConfig, typeormConfig, redisConfig, bullMqConfig, storageClientConfig, typecastConfig],
+      load: [winstonConfig, typeormConfig, redisConfig, bullMqConfig, storageClientConfig, typecastConfig, supertoneConfig],
     }),
     WinstonModule.forRootAsync({
       inject: [ConfigService],

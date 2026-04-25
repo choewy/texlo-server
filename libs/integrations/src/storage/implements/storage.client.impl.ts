@@ -34,8 +34,17 @@ export class StorageClientImpl implements StorageClient {
     }
   }
 
+  is(url: string): boolean {
+    return url.startsWith(this.options.url);
+  }
+
   async uploadFile(file: Express.Multer.File): Promise<StorageFileUploadResult> {
     return this.uploadBuffer(file.buffer, file.originalname);
+  }
+
+  async uploadUrl(url: string, filename?: string): Promise<StorageFileUploadResult> {
+    const { data } = await axios.get<Buffer>(url, { responseType: 'arraybuffer' });
+    return this.uploadBuffer(Buffer.from(data), filename);
   }
 
   async uploadBuffer(buffer: Buffer, filename?: string): Promise<StorageFileUploadResult> {
