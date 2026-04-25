@@ -15,6 +15,12 @@ export class VoiceSyncLockEntity {
   @Column({ type: 'enum', enum: VoiceSyncLockStatus, default: VoiceSyncLockStatus.Pending })
   status!: VoiceSyncLockStatus;
 
+  @Column({ type: 'jsonb', nullable: true })
+  error!: object | null;
+
+  @Column({ type: 'boolean', default: true })
+  enableSync!: boolean;
+
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date;
 
