@@ -28,6 +28,7 @@ import { RedisModule } from '@libs/redis';
 
 import { AuthModule } from './auth/auth.module';
 import { ContextModule } from './common';
+import { VoiceModule } from './voice/voice.module';
 import { VoiceSyncModule } from './voice-sync/voice-sync.module';
 
 @Module({
@@ -69,6 +70,7 @@ import { VoiceSyncModule } from './voice-sync/voice-sync.module';
       },
     }),
     AuthModule,
+    VoiceModule,
     VoiceSyncModule,
   ],
   providers: [
