@@ -29,7 +29,7 @@ export class YoutubeVideoDownloadProcessor extends WorkerHost {
     }
 
     await this.videoDownloadRepository.update(videoDownload.id, { status: VideoDownloadStatus.InProgress });
-    const { stream, title } = await new YtDlp().url(videoDownload.origin).mergeFormat('mp4').toStream({ debug: true });
+    const { stream, title } = await new YtDlp({ url: videoDownload.origin, debug: true }).mergeFormat('mp4').video().stream();
     const { url, size } = await this.storageClient.uploadStream(stream);
 
     return { title, url, size };

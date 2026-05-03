@@ -12,8 +12,8 @@ importers:
         specifier: ^1.0.11
         version: 1.0.11
       '@choewy/yt-dlp':
-        specifier: ^1.0.7
-        version: 1.0.7
+        specifier: ^1.1.0
+        version: 1.1.0
       '@nestjs/axios':
         specifier: ^4.0.1
         version: 4.0.1(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(axios@1.16.0)(rxjs@7.8.2)
@@ -403,8 +403,8 @@ packages:
     resolution: {integrity: sha512-ARH/2YQjDGNfo0EgrL8c8apSoSmxPYgNEtQ34S5j6lqcy1nCd2dzbKT1aC96MJLt9WZVmj/3d7B5C0D1MnCZgg==}
     hasBin: true
 
-  '@choewy/yt-dlp@1.0.7':
-    resolution: {integrity: sha512-FuATDAUplqDGIFBma23xYn0UTtmVcQsUwXgjmMsTwsga+FRyVOl3rAX09I5unNtJmOcYV2c8ySpNl523Db9Q6Q==}
+  '@choewy/yt-dlp@1.1.0':
+    resolution: {integrity: sha512-OZU7h4JqCm1hVDCWBcCp5U4H4DLqd+1Eq+CU5badiwOiso7X8i06gMHQ3QKKypgij/A88uNRPg1/4xi0MeHmew==}
 
   '@colors/colors@1.5.0':
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
@@ -4336,7 +4336,7 @@ snapshots:
 
   '@choewy/whisper@1.0.11': {}
 
-  '@choewy/yt-dlp@1.0.7':
+  '@choewy/yt-dlp@1.1.0':
     dependencies:
       ffmpeg-static: 5.3.0
     transitivePeerDependencies:
