@@ -21,6 +21,12 @@ export class TypeOrmVideoDownloadRepository implements VideoDownloadRepository {
     this.repository = (em ?? dataSource).getRepository(VideoDownloadEntity);
   }
 
+  async findOneById(id: string): Promise<VideoDownload | null> {
+    const videoDownload = await this.repository.findOneBy({ id });
+
+    return videoDownload ? VideoDownloadMapper.toVideoDownload(videoDownload) : null;
+  }
+
   async find(params: FindVideoDownloadParams): Promise<[VideoDownload[], number]> {
     const qb = this.repository
       .createQueryBuilder('yd')

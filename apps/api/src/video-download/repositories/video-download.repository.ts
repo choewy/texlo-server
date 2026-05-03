@@ -12,6 +12,7 @@ export type FindVideoDownloadParams = {
 
 export interface VideoDownloadRepository {
   find(params: FindVideoDownloadParams): Promise<[VideoDownload[], number]>;
+  findOneById(id: string): Promise<VideoDownload | null>;
   insert(params: Pick<VideoDownload, 'userId' | 'platform' | 'origin'>): Promise<VideoDownload>;
   deleteById(id: string): Promise<void>;
 }

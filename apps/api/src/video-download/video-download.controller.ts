@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Inject, Post, Query } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Inject, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
+import { ApiCreatedResponse, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { Serializer } from '@libs/http';
 
@@ -41,5 +41,13 @@ export class VideoDownloadController {
       platform: body.platform,
       origin: body.origin,
     });
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: '다운로드 한 동영상 삭제' })
+  @ApiNoContentResponse()
+  async removeDownloadedVideo(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    return this.videoDownloadService.removeDownloadedVideo(id);
   }
 }
