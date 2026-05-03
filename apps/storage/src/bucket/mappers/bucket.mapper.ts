@@ -9,6 +9,7 @@ export class BucketMapper {
     bucketFile.id = file.metadata.id;
     bucketFile.filename = file.filename;
     bucketFile.mimetype = file.metadata.mimetype;
+    bucketFile.size = BigInt(file.length.toString());
     bucketFile.uploadDate = file.uploadDate;
 
     return bucketFile;

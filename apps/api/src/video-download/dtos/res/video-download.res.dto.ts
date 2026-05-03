@@ -25,6 +25,10 @@ export class VideoDownloadResDTO {
   @Expose()
   url!: string | null;
 
+  @ApiProperty({ type: String, format: 'int64' })
+  @Expose()
+  size!: string;
+
   @ApiProperty({ enum: VideoDownloadStatus })
   @Expose()
   status!: VideoDownloadStatus;

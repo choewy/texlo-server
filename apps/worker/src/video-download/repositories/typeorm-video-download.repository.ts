@@ -31,6 +31,7 @@ export class TypeOrmVideoDownloadRepository implements VideoDownloadRepository {
     await this.repository.update(id, {
       url: params.url,
       title: params.title,
+      size: params.size,
       error: params.error,
       status: params.status,
       updatedAt: () => 'NOW()',

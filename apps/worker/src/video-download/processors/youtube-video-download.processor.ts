@@ -1,20 +1,17 @@
 import { OnWorkerEvent, Processor, WorkerHost } from '@nestjs/bullmq';
-import { Inject, OnModuleInit } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 
-import { existsSync, mkdirSync, readFileSync, unlinkSync } from 'node:fs';
 import { YtDlp } from '@choewy/yt-dlp';
 import { AxiosError } from 'axios';
 
 import { STORAGE_CLIENT, type StorageClient } from '@libs/integrations';
 
 import { VideoDownloadStatus } from '../domain';
-import { type VideoDownloadJob } from '../jobs';
+import { type VideoDownloadJob, VideoDownloadJobReturnValue } from '../jobs';
 import { VIDEO_DOWNLOAD_REPOSITORY, type VideoDownloadRepository } from '../repositories';
 
-@Processor('video-download.youtube')
-export class YoutubeVideoDownloadProcessor extends WorkerHost implements OnModuleInit {
-  private readonly TEMP_DIR = '.temp';
-
+@Processor('video-download.youtube', { concurrency: 2 })
+export class YoutubeVideoDownloadProcessor extends WorkerHost {
   constructor(
     @Inject(STORAGE_CLIENT)
     private readonly storageClient: StorageClient,
@@ -24,41 +21,30 @@ export class YoutubeVideoDownloadProcessor extends WorkerHost implements OnModul
     super();
   }
 
-  onModuleInit() {
-    if (!existsSync(this.TEMP_DIR)) {
-      mkdirSync(this.TEMP_DIR, { recursive: true });
-    }
-  }
-
-  private unlink(path: string): void {
-    if (existsSync(path)) {
-      unlinkSync(path);
-    }
-  }
-
-  async process(job: VideoDownloadJob): Promise<void> {
+  async process(job: VideoDownloadJob): Promise<VideoDownloadJobReturnValue | null> {
     const videoDownload = await this.videoDownloadRepository.findOneById(job.data.id);
 
     if (!videoDownload) {
-      return;
+      return null;
     }
 
     await this.videoDownloadRepository.update(videoDownload.id, { status: VideoDownloadStatus.InProgress });
+    const { stream, title } = await new YtDlp().url(videoDownload.origin).mergeFormat('mp4').toStream({ debug: true });
+    const { url, size } = await this.storageClient.uploadStream(stream);
 
-    const path = `${this.TEMP_DIR}/${videoDownload.id}.mp4`;
-
-    try {
-      await new YtDlp().url(videoDownload.origin).output(path).mergeFormat('mp4').exec({ debug: true });
-      const { url } = await this.storageClient.uploadBuffer(Buffer.from(readFileSync(path).buffer));
-      await this.videoDownloadRepository.update(videoDownload.id, { url, status: VideoDownloadStatus.Completed });
-    } finally {
-      this.unlink(path);
-    }
+    return { title, url, size };
   }
 
   @OnWorkerEvent('completed')
   async onCompleted(job: VideoDownloadJob): Promise<void> {
-    await this.videoDownloadRepository.update(job.data.id, { status: VideoDownloadStatus.Completed });
+    const id = job.data.id;
+    const returnvalue = job.returnvalue;
+
+    if (returnvalue) {
+      await this.videoDownloadRepository.update(id, { ...returnvalue, status: VideoDownloadStatus.Completed });
+    } else {
+      await this.videoDownloadRepository.update(id, { status: VideoDownloadStatus.Completed });
+    }
   }
 
   @OnWorkerEvent('failed')

@@ -20,6 +20,7 @@ export type StorageFileUploadResponse = {
   id: string;
   filename: string;
   mimetype: string;
+  size: string;
   uploadDate: Date;
 };
 
@@ -28,4 +29,10 @@ export type StorageFileUploadResult = {
   url: string;
   mimetype: string;
   filename: string;
+  size: string;
+};
+
+export type StorageFileUploadStreamOptions = {
+  filename?: string;
+  mimetype?: string;
 };

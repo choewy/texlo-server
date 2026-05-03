@@ -1,8 +1,8 @@
-import { Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Delete, Get, Headers, HttpCode, HttpStatus, Param, Post, Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiCreatedResponse, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiCreatedResponse, ApiHeader, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { type Response } from 'express';
+import { type Request, type Response } from 'express';
 import { GridFSBucketReadStream } from 'mongodb';
 
 import { Serializer } from '@libs/http';
@@ -24,7 +24,7 @@ export class BucketController {
 
     res.set({
       'Content-Type': file.metadata.mimetype,
-      'Content-Length': file.length,
+      'Content-Length': file.length.toString(),
       'Content-Disposition': `inline; filename="${id}"`,
       'Cache-Control': `public, max-age=31536000`,
     });
@@ -42,6 +42,18 @@ export class BucketController {
   @ApiCreatedResponse({ type: UploadFileResDTO })
   async uploadFile(@UploadedFile() uploadedFile: Express.Multer.File) {
     return this.bucketService.uploadFile(uploadedFile);
+  }
+
+  @Post('stream')
+  @Serializer(UploadFileResDTO)
+  @UseGuards(BucketGuard)
+  @ApiOperation({ summary: '파일 스트림 업로드' })
+  @ApiConsumes('application/octet-stream')
+  @ApiHeader({ name: 'x-filename', required: false })
+  @ApiBody({ schema: { type: 'string', format: 'binary' } })
+  @ApiCreatedResponse({ type: UploadFileResDTO })
+  async uploadFileStream(@Req() req: Request, @Headers('x-filename') filename?: string, @Headers('content-type') mimetype?: string) {
+    return this.bucketService.uploadFileStream(req, { filename, mimetype });
   }
 
   @Delete(':id')

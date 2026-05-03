@@ -7,6 +7,7 @@ export type VideoDownloadUpdateParams = {
   error?: object;
   title?: string;
   url?: string;
+  size?: string;
 };
 
 export interface VideoDownloadRepository {

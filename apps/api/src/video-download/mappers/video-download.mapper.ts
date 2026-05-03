@@ -11,6 +11,7 @@ export class VideoDownloadMapper {
     videoDownload.origin = e.origin;
     videoDownload.title = e.title;
     videoDownload.url = e.url;
+    videoDownload.size = e.size;
     videoDownload.status = e.status;
     videoDownload.error = e.error;
     videoDownload.createdAt = e.createdAt;

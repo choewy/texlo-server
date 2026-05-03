@@ -21,6 +21,9 @@ export class VideoDownloadEntity {
   @Column({ type: 'varchar', length: 1024, nullable: true })
   url!: string | null;
 
+  @Column({ type: 'bigint', default: 0 })
+  size!: string;
+
   @Column({ type: 'enum', enum: VideoDownloadStatus, default: VideoDownloadStatus.Pending })
   status!: VideoDownloadStatus;
 

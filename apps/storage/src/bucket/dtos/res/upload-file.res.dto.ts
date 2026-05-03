@@ -15,6 +15,10 @@ export class UploadFileResDTO {
   @Expose()
   readonly mimetype!: string;
 
+  @ApiProperty({ type: String })
+  @Expose()
+  readonly size!: string;
+
   @ApiProperty({ type: Date })
   @Expose()
   readonly uploadDate!: Date;

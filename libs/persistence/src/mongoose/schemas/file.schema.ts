@@ -9,8 +9,8 @@ export class File {
   @Prop({ type: Types.ObjectId, required: true })
   _id!: Types.ObjectId;
 
-  @Prop({ type: Number, required: true })
-  length!: number;
+  @Prop({ type: BigInt, required: true })
+  length!: bigint;
 
   @Prop({ type: Number, required: true })
   chunkSize!: number;
