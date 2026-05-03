@@ -14,5 +14,6 @@ export type FindVoiceParams = {
 };
 
 export interface VoiceRepository {
+  findOneById(id: string): Promise<Voice | null>;
   find(params: FindVoiceParams): Promise<[Voice[], number]>;
 }

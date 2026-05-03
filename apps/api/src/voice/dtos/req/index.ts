@@ -1,1 +1,2 @@
-export * from './get-voices.req';
+export * from './get-voices.req.dto';
+export * from './generate-voice.req.dto';

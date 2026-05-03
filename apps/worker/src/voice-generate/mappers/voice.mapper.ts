@@ -9,16 +9,6 @@ export class VoiceMapper {
     voice.id = e.id;
     voice.provider = e.provider;
     voice.code = e.code;
-    voice.name = e.name;
-    voice.imageUrl = e.imageUrl;
-    voice.soundUrl = e.soundUrl;
-    voice.gender = e.gender;
-    voice.age = e.age;
-    voice.languages = e.languages;
-    voice.styles = e.styles;
-    voice.usecases = e.usecases;
-    voice.likes = e.likes;
-    voice.favorite = !!e.favorite?.id;
 
     return voice;
   }
@@ -30,6 +20,7 @@ export class VoiceMapper {
     voiceGenerate.status = e.status;
     voiceGenerate.url = e.url;
     voiceGenerate.text = e.text;
+    voiceGenerate.size = e.size;
     voiceGenerate.error = e.error;
     voiceGenerate.userId = e.userId;
     voiceGenerate.voiceId = e.voiceId;

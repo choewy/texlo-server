@@ -1,5 +1,3 @@
 export * from './tokens';
-export * from './voice.repository';
 export * from './voice-generate.repository';
-export * from './typeorm-voice.repository';
 export * from './typeorm-voice-generate.repository';

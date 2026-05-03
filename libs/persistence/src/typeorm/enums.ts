@@ -76,3 +76,10 @@ export enum VideoDownloadStatus {
   Failed = 'failed',
   Completed = 'completed',
 }
+
+export enum VoiceGenerateStatus {
+  Pending = 'pending',
+  InProgress = 'in-progress',
+  Failed = 'failed',
+  Completed = 'completed',
+}

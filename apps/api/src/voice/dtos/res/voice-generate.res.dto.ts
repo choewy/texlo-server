@@ -1,41 +1,31 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { Expose, Transform } from 'class-transformer';
+import { Expose, Transform, Type } from 'class-transformer';
 
-import { VideoDownloadPlatform, VideoDownloadStatus } from '@apps/api/shared';
+import { VoiceGenerateStatus } from '@apps/api/shared';
 
-export class VideoDownloadResDTO {
+import { VoiceResDTO } from './voice.res.dto';
+
+export class VoiceGenerateResDTO {
   @ApiProperty({ type: String, format: 'uuid' })
   @Expose()
   id!: string;
 
-  @ApiProperty({ enum: VideoDownloadPlatform })
+  @ApiProperty({ enum: VoiceGenerateStatus })
   @Expose()
-  platform!: VideoDownloadPlatform;
+  status!: VoiceGenerateStatus;
 
   @ApiProperty({ type: String, format: 'uri' })
   @Expose()
-  origin!: string;
-
-  @ApiProperty({ type: String, nullable: true })
-  @Expose()
-  title!: string | null;
-
-  @ApiProperty({ type: String, format: 'uri', nullable: true })
-  @Expose()
   url!: string | null;
 
-  @ApiProperty({ type: String, format: 'uri', nullable: true })
+  @ApiProperty({ type: String })
   @Expose()
-  thumbnail!: string | null;
+  text!: string;
 
   @ApiProperty({ type: String, format: 'int64' })
   @Expose()
   size!: string;
-
-  @ApiProperty({ enum: VideoDownloadStatus })
-  @Expose()
-  status!: VideoDownloadStatus;
 
   @ApiProperty({ type: Object, nullable: true })
   @Transform(({ obj, key }) => {
@@ -51,4 +41,9 @@ export class VideoDownloadResDTO {
   @ApiProperty({ type: Date })
   @Expose()
   updatedAt!: Date;
+
+  @ApiProperty({ type: VoiceResDTO, nullable: true })
+  @Type(() => VoiceResDTO)
+  @Expose()
+  voice!: VoiceResDTO | null;
 }

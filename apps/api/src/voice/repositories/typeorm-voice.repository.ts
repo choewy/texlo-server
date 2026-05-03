@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 
-import { DataSource, EntityManager } from 'typeorm';
+import { DataSource, EntityManager, Repository } from 'typeorm';
 
 import { VoiceEntity } from '@libs/persistence';
 
@@ -13,14 +13,24 @@ import { FindVoiceParams, VoiceRepository } from './voice.repository';
 
 @Injectable()
 export class TypeOrmVoiceRepository implements VoiceRepository {
-  constructor(private readonly dataSource: DataSource) {}
+  private readonly repository: Repository<VoiceEntity>;
 
-  private getRepository(em?: EntityManager) {
-    return (em ?? this.dataSource).getRepository(VoiceEntity);
+  constructor(
+    dataSource: DataSource,
+    @Optional()
+    em?: EntityManager,
+  ) {
+    this.repository = (em ?? dataSource).getRepository(VoiceEntity);
+  }
+
+  async findOneById(id: string): Promise<Voice | null> {
+    const voice = await this.repository.findOneBy({ id });
+
+    return voice ? VoiceMapper.toVoice(voice) : null;
   }
 
   async find(params: FindVoiceParams): Promise<[Voice[], number]> {
-    const qb = this.getRepository()
+    const qb = this.repository
       .createQueryBuilder('voice')
       .skip((params.page - 1) * params.take)
       .take(params.take)

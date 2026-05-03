@@ -23,6 +23,7 @@ import { StorageModule } from '@libs/integrations';
 import { RedisModule } from '@libs/redis';
 
 import { VideoDownloadModule } from './video-download/video-download.module';
+import { VoiceGenerateModule } from './voice-generate/voice-generate.module';
 import { VoiceSyncModule } from './voice-sync/voice-sync.module';
 
 @Module({
@@ -64,6 +65,7 @@ import { VoiceSyncModule } from './voice-sync/voice-sync.module';
       },
     }),
     VoiceSyncModule,
+    VoiceGenerateModule,
     VideoDownloadModule,
   ],
 })
