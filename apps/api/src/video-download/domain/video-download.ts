@@ -6,6 +6,7 @@ export class VideoDownload {
   origin!: string;
   title!: string | null;
   url!: string | null;
+  thumbnail!: string | null;
   size!: string;
   status!: VideoDownloadStatus;
   error!: object | null;

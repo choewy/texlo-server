@@ -8,6 +8,7 @@ export type VideoDownloadUpdateParams = {
   title?: string;
   url?: string;
   size?: string;
+  thumbnail?: string | null;
 };
 
 export interface VideoDownloadRepository {

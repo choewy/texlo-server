@@ -17,8 +17,10 @@ export class BullVideoDownloadQueueProducer implements VideoDownloadQueueProduce
   constructor(
     @InjectQueue('video-download.youtube')
     youtubeVideoDownloadQueue: Queue<VideoDownloadJob>,
+    @InjectQueue('video-download.vimeo')
+    vimeoVideoDownloadQueue: Queue<VideoDownloadJob>,
   ) {
-    this.queues = [youtubeVideoDownloadQueue];
+    this.queues = [youtubeVideoDownloadQueue, vimeoVideoDownloadQueue];
   }
 
   private find(platform: VideoDownloadPlatform): Queue<VideoDownloadJob> {

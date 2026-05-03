@@ -10,8 +10,8 @@ import { VideoDownloadStatus } from '../domain';
 import { type VideoDownloadJob, VideoDownloadJobReturnValue } from '../jobs';
 import { VIDEO_DOWNLOAD_REPOSITORY, type VideoDownloadRepository } from '../repositories';
 
-@Processor('video-download.youtube', { concurrency: 2 })
-export class YoutubeVideoDownloadProcessor extends WorkerHost {
+@Processor('video-download.vimeo', { concurrency: 2 })
+export class VimeoVideoDownloadProcessor extends WorkerHost {
   constructor(
     @Inject(STORAGE_CLIENT)
     private readonly storageClient: StorageClient,

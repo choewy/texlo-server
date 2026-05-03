@@ -7,7 +7,7 @@ import { VideoDownloadController } from './video-download.controller';
 import { VideoDownloadService } from './video-download.service';
 
 @Module({
-  imports: [BullModule.registerQueue({ name: 'video-download.youtube' })],
+  imports: [BullModule.registerQueue({ name: 'video-download.youtube' }), BullModule.registerQueue({ name: 'video-download.vimeo' })],
   controllers: [VideoDownloadController],
   providers: [
     VideoDownloadService,

@@ -52,6 +52,10 @@ export class VideoDownloadService {
       await this.storageClient.remove(videoDownload.url);
     }
 
+    if (videoDownload.thumbnail) {
+      await this.storageClient.remove(videoDownload.thumbnail);
+    }
+
     await this.videoDownloadRepository.deleteById(id);
   }
 }

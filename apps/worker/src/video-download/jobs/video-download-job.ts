@@ -5,6 +5,7 @@ export type VideoDownloadJobReturnValue = {
   title: string;
   url: string;
   size: string;
+  thumbnail: string | null;
 };
 
 export type VideoDownloadJob = Job<VideoDownloadJobData, VideoDownloadJobReturnValue | null>;

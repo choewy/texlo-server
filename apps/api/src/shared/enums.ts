@@ -54,6 +54,7 @@ export enum VoiceStatus {
 
 export enum VideoDownloadPlatform {
   Youtube = 'youtube',
+  Vimeo = 'vimeo',
 }
 
 export enum VideoDownloadStatus {

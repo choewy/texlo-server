@@ -32,6 +32,7 @@ export class TypeOrmVideoDownloadRepository implements VideoDownloadRepository {
       url: params.url,
       title: params.title,
       size: params.size,
+      thumbnail: params.thumbnail,
       error: params.error,
       status: params.status,
       updatedAt: () => 'NOW()',
