@@ -51,3 +51,14 @@ export enum VoiceStatus {
   Activated = 'activated',
   Deactivated = 'deactivated',
 }
+
+export enum VideoDownloadPlatform {
+  Youtube = 'youtube',
+}
+
+export enum VideoDownloadStatus {
+  Pending = 'pending',
+  InProgress = 'in-progress',
+  Failed = 'failed',
+  Completed = 'completed',
+}

@@ -9,7 +9,7 @@ import { VoiceStatus } from '@apps/api/shared';
 import { Voice } from '../domain/voice';
 import { VoiceMapper } from '../mappers';
 
-import { GetVoiceParams, VoiceRepository } from './voice.repository';
+import { FindVoiceParams, VoiceRepository } from './voice.repository';
 
 @Injectable()
 export class TypeOrmVoiceRepository implements VoiceRepository {
@@ -19,7 +19,7 @@ export class TypeOrmVoiceRepository implements VoiceRepository {
     return (em ?? this.dataSource).getRepository(VoiceEntity);
   }
 
-  async find(params: GetVoiceParams): Promise<[Voice[], number]> {
+  async find(params: FindVoiceParams): Promise<[Voice[], number]> {
     const qb = this.getRepository()
       .createQueryBuilder('voice')
       .skip((params.page - 1) * params.take)

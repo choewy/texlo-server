@@ -2,7 +2,7 @@ import { VoiceAge, VoiceGender, VoiceLanguage, VoiceProvider } from '@apps/api/s
 
 import { Voice } from '../domain';
 
-export type GetVoiceParams = {
+export type FindVoiceParams = {
   provider?: VoiceProvider;
   age?: VoiceAge;
   gender?: VoiceGender;
@@ -14,5 +14,5 @@ export type GetVoiceParams = {
 };
 
 export interface VoiceRepository {
-  find(params: GetVoiceParams): Promise<[Voice[], number]>;
+  find(params: FindVoiceParams): Promise<[Voice[], number]>;
 }

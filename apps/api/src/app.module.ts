@@ -31,6 +31,7 @@ import { AuthModule } from './auth/auth.module';
 import { ContextModule } from './common';
 import { OAuthModule } from './oauth/oauth.module';
 import { UserModule } from './user/user.module';
+import { VideoDownloadModule } from './video-download/video-download.module';
 import { VoiceModule } from './voice/voice.module';
 
 @Module({
@@ -75,6 +76,7 @@ import { VoiceModule } from './voice/voice.module';
     OAuthModule,
     UserModule,
     VoiceModule,
+    VideoDownloadModule,
   ],
   providers: [
     {

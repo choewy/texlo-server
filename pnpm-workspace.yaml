@@ -1,0 +1,3 @@
+onlyBuiltDependencies:
+  - '@choewy/yt-dlp'
+  - ffmpeg-static
